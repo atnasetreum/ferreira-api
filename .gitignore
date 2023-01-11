@@ -2,6 +2,11 @@
 /dist
 /node_modules
 /postgres
+.env.development
+.env.production
+
+.env.development2
+.env.production2
 
 # Logs
 logs
