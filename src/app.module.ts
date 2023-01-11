@@ -10,9 +10,14 @@ import { RoutesModule } from './routes/routes.module';
 import { AuthModule } from './auth/auth.module';
 import { CommonModule } from './common/common.module';
 import { InegiModule } from './inegi/inegi.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+    }),
     ConfigModule.forRoot({
       envFilePath: `.env.${process.env.NODE_ENV}`,
       load: [EnvConfiguration],
