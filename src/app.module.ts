@@ -9,6 +9,7 @@ import { SellersModule } from './sellers/sellers.module';
 import { RoutesModule } from './routes/routes.module';
 import { AuthModule } from './auth/auth.module';
 import { CommonModule } from './common/common.module';
+import { InegiModule } from './inegi/inegi.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { CommonModule } from './common/common.module';
     RoutesModule,
     AuthModule,
     CommonModule,
+    InegiModule,
   ],
   controllers: [],
   providers: [],

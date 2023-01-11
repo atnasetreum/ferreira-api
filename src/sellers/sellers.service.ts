@@ -1,15 +1,49 @@
-import { Injectable } from '@nestjs/common';
-import { CreateSellerDto } from './dto/create-seller.dto';
-import { UpdateSellerDto } from './dto/update-seller.dto';
+import { Injectable, Logger } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CommonService } from 'src/common/common.service';
+import { Repository } from 'typeorm';
+import { CreateSellerDto, UpdateSellerDto } from './dto';
+import { Seller } from './entities/seller.entity';
 
 @Injectable()
 export class SellersService {
-  create(createSellerDto: CreateSellerDto) {
-    return 'This action adds a new seller';
+  private readonly logger = new Logger(SellersService.name);
+
+  constructor(
+    @InjectRepository(Seller)
+    private readonly sellerRepository: Repository<Seller>,
+    private readonly commonService: CommonService,
+  ) {}
+
+  async create(createSellerDto: CreateSellerDto) {
+    try {
+      const sellerCreate = await this.sellerRepository.create(createSellerDto);
+      const seller = await this.sellerRepository.save(sellerCreate);
+      return seller;
+    } catch (error) {
+      this.commonService.handleExceptions({
+        ref: 'create',
+        error,
+        logger: this.logger,
+      });
+    }
   }
 
-  findAll() {
-    return `This action returns all sellers`;
+  async findAll() {
+    try {
+      const sellers = await this.sellerRepository.find({
+        where: {
+          isActive: true,
+        },
+      });
+      return sellers;
+    } catch (error) {
+      this.commonService.handleExceptions({
+        ref: 'findAll',
+        error,
+        logger: this.logger,
+      });
+    }
   }
 
   findOne(id: number) {

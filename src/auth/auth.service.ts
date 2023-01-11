@@ -21,6 +21,7 @@ export class AuthService {
     return {
       id: user.id,
       name: user.name,
+      userType: user.userType.name,
       token: this.commonService.createJwt({ id: user.id }),
     };
   }

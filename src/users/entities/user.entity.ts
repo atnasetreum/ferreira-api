@@ -12,7 +12,7 @@ import {
 import * as argon2 from 'argon2';
 import { UserType } from 'src/user-types/entities/user-type.entity';
 
-@Entity()
+@Entity('users')
 @Index(['name', 'userType'])
 export class User {
   @PrimaryGeneratedColumn()

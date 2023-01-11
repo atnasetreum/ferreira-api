@@ -83,6 +83,7 @@ export class UsersService {
           ...where,
           isActive: true,
         },
+        relations: ['userType'],
       });
 
       if (!user) {

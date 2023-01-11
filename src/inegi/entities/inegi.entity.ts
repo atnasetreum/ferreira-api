@@ -6,22 +6,19 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-export enum EUserType {
-  ADMIN = 'ADMIN',
-  USER = 'DRIVER',
-}
-
-@Entity('userTypes')
-export class UserType {
+@Entity()
+export class Inegi {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({
-    unique: true,
-    type: 'enum',
-    enum: EUserType,
-  })
-  name: string;
+  @Column('text')
+  entidad: string;
+
+  @Column('text')
+  municipio: string;
+
+  @Column('text')
+  localidad: string;
 
   @Column({ default: true })
   isActive: boolean;
