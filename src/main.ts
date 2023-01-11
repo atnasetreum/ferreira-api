@@ -16,7 +16,10 @@ async function bootstrap() {
     }),
   );
 
-  app.enableCors({ credentials: true, origin: ['http://localhost:3000'] });
+  app.enableCors({
+    credentials: true,
+    origin: ['http://localhost:3000', 'https://transportesferreira.com'],
+  });
 
   app.use(cookieParser());
 
