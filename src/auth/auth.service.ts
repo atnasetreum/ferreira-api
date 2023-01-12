@@ -36,6 +36,7 @@ export class AuthService {
 
   async validateToken(request: Request) {
     const { token } = request.cookies;
+    console.log('cookies', request.cookies);
     if (!token) {
       throw new UnauthorizedException('Credenciales no validas');
     }
