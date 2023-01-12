@@ -5,15 +5,14 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   BeforeInsert,
-  Index,
-  JoinColumn,
-  OneToOne,
+  ManyToOne,
+  Unique,
 } from 'typeorm';
 import * as argon2 from 'argon2';
 import { UserType } from 'src/user-types/entities/user-type.entity';
 
 @Entity('users')
-@Index(['name', 'userType'])
+@Unique(['name', 'userType'])
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -33,8 +32,7 @@ export class User {
   @UpdateDateColumn()
   updatedAt: number;
 
-  @OneToOne(() => UserType)
-  @JoinColumn()
+  @ManyToOne(() => UserType, (userType) => userType.users)
   userType: UserType;
 
   @BeforeInsert()

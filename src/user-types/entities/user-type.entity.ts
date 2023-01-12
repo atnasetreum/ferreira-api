@@ -1,9 +1,11 @@
+import { User } from 'src/users/entities/user.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 export enum EUserType {
@@ -31,4 +33,7 @@ export class UserType {
 
   @UpdateDateColumn()
   updatedAt: number;
+
+  @OneToMany(() => User, (user) => user.userType)
+  users: User[];
 }
