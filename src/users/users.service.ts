@@ -60,6 +60,34 @@ export class UsersService {
     }
   }
 
+  async usersLogin() {
+    try {
+      const users = await this.userRepository.find({
+        where: {
+          isActive: true,
+          userType: {
+            isActive: true,
+          },
+        },
+        relations: ['userType'],
+      });
+
+      const usersLogin = [];
+
+      users.forEach(({ id, name, userType: { name: nameUserType } }) => {
+        usersLogin.push({ id, name, nameUserType });
+      });
+
+      return usersLogin;
+    } catch (error) {
+      this.commonService.handleExceptions({
+        ref: 'findAll',
+        error,
+        logger: this.logger,
+      });
+    }
+  }
+
   async findOne(id: number) {
     try {
       const user = await this.userRepository.findOneBy({ id, isActive: true });
