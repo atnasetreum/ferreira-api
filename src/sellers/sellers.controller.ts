@@ -64,6 +64,11 @@ export class SellersController {
     return this.sellersService.findAllNoParent();
   }
 
+  @Get('basic')
+  findAllBasic() {
+    return this.sellersService.findAllBasic();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.sellersService.findOne(+id);

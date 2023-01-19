@@ -33,6 +33,11 @@ export class UsersController {
     return this.usersService.usersLogin();
   }
 
+  @Get('drivers')
+  usersDrivers() {
+    return this.usersService.usersDrivers();
+  }
+
   @Get(':id')
   @UseGuards(JwtValidateGuard)
   findOne(@Param('id') id: string) {

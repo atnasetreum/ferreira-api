@@ -21,25 +21,25 @@ export class Seller {
   @Column('text', { unique: true })
   nombre: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   calle: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   numero: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   colonia: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   ciudad: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   municipio: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   estado: string;
 
-  @Column('numeric')
+  @Column('numeric', { nullable: true })
   cp: number;
 
   @Column('text')

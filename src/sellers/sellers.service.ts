@@ -137,7 +137,29 @@ export class SellersService {
       return sellers;
     } catch (error) {
       this.commonService.handleExceptions({
-        ref: 'findAll',
+        ref: 'findAllNoParent',
+        error,
+        logger: this.logger,
+      });
+    }
+  }
+
+  async findAllBasic() {
+    try {
+      const sellers = await this.sellerRepository.find({
+        select: {
+          id: true,
+          uuid: true,
+          nombre: true,
+        },
+        where: {
+          isActive: true,
+        },
+      });
+      return sellers;
+    } catch (error) {
+      this.commonService.handleExceptions({
+        ref: 'findAllBasic',
         error,
         logger: this.logger,
       });

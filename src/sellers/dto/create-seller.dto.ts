@@ -10,31 +10,31 @@ export class CreateSellerDto {
   readonly nombre: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   readonly calle: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   readonly numero: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   readonly colonia: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   readonly ciudad: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   readonly municipio: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   readonly estado: string;
 
   @IsPositive()
-  @IsNotEmpty()
+  @IsOptional()
   readonly cp: number;
 
   @IsString()

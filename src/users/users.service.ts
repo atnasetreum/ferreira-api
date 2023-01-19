@@ -63,6 +63,31 @@ export class UsersService {
     }
   }
 
+  async usersDrivers() {
+    try {
+      const users = await this.userRepository.find({
+        select: {
+          id: true,
+          name: true,
+        },
+        where: {
+          isActive: true,
+          userType: {
+            name: 'DRIVER',
+          },
+        },
+        relations: ['userType'],
+      });
+      return users;
+    } catch (error) {
+      this.commonService.handleExceptions({
+        ref: 'usersDrivers',
+        error,
+        logger: this.logger,
+      });
+    }
+  }
+
   async usersLogin() {
     try {
       const users = await this.userRepository.find({
