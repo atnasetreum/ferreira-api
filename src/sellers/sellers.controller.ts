@@ -7,22 +7,15 @@ import {
   Param,
   Delete,
   UseGuards,
-  UploadedFile,
-  ParseFilePipe,
-  FileTypeValidator,
-  MaxFileSizeValidator,
   UseInterceptors,
   BadRequestException,
   UploadedFiles,
+  Query,
 } from '@nestjs/common';
 import { SellersService } from './sellers.service';
-import { CreateSellerDto, UpdateSellerDto } from './dto';
+import { CreateSellerDto, QuerySellerDto, UpdateSellerDto } from './dto';
 import { JwtValidateGuard } from 'src/auth/guards';
-import {
-  AnyFilesInterceptor,
-  FileInterceptor,
-  FilesInterceptor,
-} from '@nestjs/platform-express';
+import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { v4 as uuid } from 'uuid';
 import { unlinkSync } from 'fs';
@@ -62,8 +55,8 @@ export class SellersController {
   }
 
   @Get()
-  findAll() {
-    return this.sellersService.findAll();
+  findAll(@Query() query: QuerySellerDto) {
+    return this.sellersService.findAll(query);
   }
 
   @Get('no-parent')

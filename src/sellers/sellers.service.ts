@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CommonService } from 'src/common/common.service';
-import { IsNull, Repository } from 'typeorm';
-import { CreateSellerDto, UpdateSellerDto } from './dto';
+import { IsNull, Like, Raw, Repository } from 'typeorm';
+import { CreateSellerDto, QuerySellerDto, UpdateSellerDto } from './dto';
 import { Seller, ReferencePhone, Reference } from './entities';
 
 @Injectable()
@@ -79,11 +79,28 @@ export class SellersService {
     }
   }
 
-  async findAll() {
+  async findAll(query: QuerySellerDto) {
     try {
       const sellers = await this.sellerRepository.find({
         where: {
           isActive: true,
+          ...(query?.id && { id: Number(query.id) }),
+          ...(query?.uuid && { uuid: query.uuid }),
+          ...(query?.nombre && {
+            nombre: Raw(
+              (alias) =>
+                `LOWER(${alias}) Like '%${query.nombre.toLowerCase()}%'`,
+            ),
+          }),
+          ...(query?.personaQueAtiende && {
+            personaQueAtiende: Raw(
+              (alias) =>
+                `LOWER(${alias}) Like '%${query.personaQueAtiende.toLowerCase()}%'`,
+            ),
+          }),
+          ...(query?.estado && { estado: query.estado }),
+          ...(query?.municipio && { municipio: query.municipio }),
+          ...(query?.ciudad && { ciudad: query.ciudad }),
         },
         relations: ['references', 'referencePhones', 'sellers'],
         order: {
