@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CommonService } from 'src/common/common.service';
-import { IsNull, Like, Raw, Repository } from 'typeorm';
+import { IsNull, Raw, Repository } from 'typeorm';
 import { CreateSellerDto, QuerySellerDto, UpdateSellerDto } from './dto';
 import { Seller, ReferencePhone, Reference } from './entities';
 
@@ -85,7 +85,11 @@ export class SellersService {
         where: {
           isActive: true,
           ...(query?.id && { id: Number(query.id) }),
-          ...(query?.uuid && { uuid: query.uuid }),
+          ...(query?.uuid && {
+            uuid: Raw(
+              (alias) => `LOWER(${alias}) Like '%${query.uuid.toLowerCase()}%'`,
+            ),
+          }),
           ...(query?.nombre && {
             nombre: Raw(
               (alias) =>
