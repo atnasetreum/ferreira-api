@@ -76,7 +76,7 @@ export class CommonService {
     error: any;
     logger: any;
   }): never {
-    console.log({ error });
+    //console.log({ error });
     // const { email, serviceRequest }: User = this.request.user;
     logger.error(`[${ref}]`, error);
 

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsPositive, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsPositive, IsString } from 'class-validator';
 
 export class CreateSellerDto {
   @IsString()
@@ -7,7 +7,7 @@ export class CreateSellerDto {
 
   @IsString()
   @IsNotEmpty()
-  readonly name: string;
+  readonly nombre: string;
 
   @IsString()
   @IsNotEmpty()
@@ -39,13 +39,21 @@ export class CreateSellerDto {
 
   @IsString()
   @IsNotEmpty()
-  readonly link: string;
+  readonly linkUbicacion: string;
 
   @IsString()
-  @IsNotEmpty()
-  readonly image: string;
-
-  @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   readonly personaQueAtiende: string;
+
+  @IsString()
+  @IsOptional()
+  readonly telefonos: string;
+
+  @IsString()
+  @IsOptional()
+  readonly referencias: string;
+
+  @IsPositive()
+  @IsOptional()
+  readonly idGroup: number;
 }

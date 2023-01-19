@@ -4,7 +4,11 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
+  ManyToOne,
 } from 'typeorm';
+import { ReferencePhone } from './reference-phone.entity';
+import { Reference } from './reference.entity';
 
 @Entity('sellers')
 export class Seller {
@@ -15,7 +19,7 @@ export class Seller {
   uuid: string;
 
   @Column('text', { unique: true })
-  name: string;
+  nombre: string;
 
   @Column('text')
   calle: string;
@@ -39,18 +43,18 @@ export class Seller {
   cp: number;
 
   @Column('text')
-  link: string;
+  linkUbicacion: string;
 
   @Column('text')
   image: string;
 
-  @Column('text')
-  personaQueAtiende: string;
+  @Column('text', { nullable: true })
+  personaQueAtiende?: string;
 
-  @Column('numeric', { nullable: true })
-  idGroup?: number;
+  // @Column('numeric', { nullable: true, name: 'id_group' })
+  // idGroup?: number;
 
-  @Column({ default: true })
+  @Column({ default: true, name: 'is_active' })
   isActive: boolean;
 
   @CreateDateColumn()
@@ -58,4 +62,22 @@ export class Seller {
 
   @UpdateDateColumn()
   updatedAt: number;
+
+  @OneToMany(
+    () => ReferencePhone,
+    (referencePhones) => referencePhones.seller,
+    { nullable: true },
+  )
+  referencePhones: ReferencePhone[];
+
+  @OneToMany(() => Reference, (reference) => reference.seller, {
+    nullable: true,
+  })
+  references: Reference[];
+
+  @ManyToOne(() => Seller, (seller) => seller.sellers)
+  parent: Seller;
+
+  @OneToMany(() => Seller, (seller) => seller.parent)
+  sellers: Seller[];
 }

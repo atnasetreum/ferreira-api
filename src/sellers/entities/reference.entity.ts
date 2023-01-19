@@ -4,21 +4,23 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
+import { Seller } from './seller.entity';
 
-@Entity()
-export class Inegi {
+@Entity('references')
+export class Reference {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column('text')
-  entidad: string;
+  description: string;
 
-  @Column('text')
-  municipio: string;
+  @Column('text', { nullable: true })
+  link: string;
 
-  @Column('text')
-  localidad: string;
+  @Column('text', { nullable: true })
+  image: string;
 
   @Column({ default: true, name: 'is_active' })
   isActive: boolean;
@@ -28,4 +30,7 @@ export class Inegi {
 
   @UpdateDateColumn()
   updatedAt: number;
+
+  @ManyToOne(() => Seller, (user) => user.references)
+  seller: Seller;
 }
