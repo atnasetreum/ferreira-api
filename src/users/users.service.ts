@@ -49,6 +49,9 @@ export class UsersService {
           },
         },
         relations: ['userType'],
+        order: {
+          id: 'DESC',
+        },
       });
       return users;
     } catch (error) {
