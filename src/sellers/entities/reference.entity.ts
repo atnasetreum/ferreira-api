@@ -22,6 +22,9 @@ export class Reference {
   @Column('text', { nullable: true })
   image: string;
 
+  @Column('numeric')
+  order: number;
+
   @Column({ default: true, name: 'is_active' })
   isActive: boolean;
 
@@ -31,6 +34,6 @@ export class Reference {
   @UpdateDateColumn()
   updatedAt: number;
 
-  @ManyToOne(() => Seller, (user) => user.references)
+  @ManyToOne(() => Seller, (user) => user.references, { onDelete: 'CASCADE' })
   seller: Seller;
 }

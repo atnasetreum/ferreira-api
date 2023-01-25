@@ -62,6 +62,10 @@ export class CommonService {
         throw new BadRequestException(error?.message || error?.detail);
       case '22P02':
         throw new BadRequestException(error?.message || error?.detail);
+      case '23503':
+        throw new BadRequestException(
+          'Eliminar los sellers dependientes primero',
+        );
       default:
         break;
     }

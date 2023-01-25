@@ -75,8 +75,28 @@ export class SellersController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSellerDto: UpdateSellerDto) {
-    return this.sellersService.update(+id, updateSellerDto);
+  @UseInterceptors(
+    AnyFilesInterceptor({
+      storage: diskStorage({
+        destination: './public/static/images/sellers',
+        filename(req, file, callback) {
+          const fileExtension = file.mimetype.split('/')[1];
+          let fileName = `${uuid()}.${fileExtension}`;
+          if (file.fieldname.startsWith('ref')) {
+            fileName = 'REF-' + fileName;
+          }
+          callback(null, fileName);
+        },
+      }),
+    }),
+  )
+  update(
+    @Param('id') id: string,
+    @Body() updateSellerDto: UpdateSellerDto,
+    @UploadedFiles()
+    images: Array<Express.Multer.File>,
+  ) {
+    return this.sellersService.update(+id, updateSellerDto, images);
   }
 
   @Delete(':id')

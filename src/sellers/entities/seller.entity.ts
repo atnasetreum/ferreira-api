@@ -51,9 +51,6 @@ export class Seller {
   @Column('text', { nullable: true })
   personaQueAtiende?: string;
 
-  // @Column('numeric', { nullable: true, name: 'id_group' })
-  // idGroup?: number;
-
   @Column({ default: true, name: 'is_active' })
   isActive: boolean;
 

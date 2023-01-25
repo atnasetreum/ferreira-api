@@ -19,6 +19,9 @@ export class ReferencePhone {
   @Column('text')
   phone: string;
 
+  @Column('numeric')
+  order: number;
+
   @Column({ default: true, name: 'is_active' })
   isActive: boolean;
 
@@ -28,6 +31,8 @@ export class ReferencePhone {
   @UpdateDateColumn()
   updatedAt: number;
 
-  @ManyToOne(() => Seller, (user) => user.referencePhones)
+  @ManyToOne(() => Seller, (user) => user.referencePhones, {
+    onDelete: 'CASCADE',
+  })
   seller: Seller;
 }
