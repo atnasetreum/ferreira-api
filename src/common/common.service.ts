@@ -99,6 +99,8 @@ export class CommonService {
       },
     } = error;
 
+    //console.log({ errorNest, errorAxios, errorDB });
+
     if (errorNest) {
       this.errorsNest(error);
     } else if (errorAxios) {
