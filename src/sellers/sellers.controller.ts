@@ -47,7 +47,7 @@ export class SellersController {
     @Body() createSellerDto: CreateSellerDto,
     @UploadedFiles(
       new ParseFilePipe({
-        validators: [new MaxFileSizeValidator({ maxSize: 2048 })],
+        validators: [new MaxFileSizeValidator({ maxSize: 20000 })],
       }),
     )
     images: Array<Express.Multer.File>,
