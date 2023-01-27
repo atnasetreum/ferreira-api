@@ -1,7 +1,6 @@
 /public/static/images/sellers
 
 # compiled output
-/dist
 /node_modules
 /postgres
 .env.development
