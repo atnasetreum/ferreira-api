@@ -11,6 +11,8 @@ import {
   BadRequestException,
   UploadedFiles,
   Query,
+  ParseFilePipe,
+  MaxFileSizeValidator,
 } from '@nestjs/common';
 import { SellersService } from './sellers.service';
 import { CreateSellerDto, QuerySellerDto, UpdateSellerDto } from './dto';
@@ -43,7 +45,11 @@ export class SellersController {
   )
   create(
     @Body() createSellerDto: CreateSellerDto,
-    @UploadedFiles()
+    @UploadedFiles(
+      new ParseFilePipe({
+        validators: [new MaxFileSizeValidator({ maxSize: 2048 })],
+      }),
+    )
     images: Array<Express.Multer.File>,
   ) {
     return this.sellersService.create(createSellerDto, images).catch((err) => {

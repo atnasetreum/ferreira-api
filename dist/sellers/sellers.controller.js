@@ -68,7 +68,9 @@ __decorate([
         }),
     })),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.UploadedFiles)()),
+    __param(1, (0, common_1.UploadedFiles)(new common_1.ParseFilePipe({
+        validators: [new common_1.MaxFileSizeValidator({ maxSize: 2048 })],
+    }))),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [dto_1.CreateSellerDto,
         Array]),
