@@ -45,11 +45,7 @@ export class SellersController {
   )
   create(
     @Body() createSellerDto: CreateSellerDto,
-    @UploadedFiles(
-      new ParseFilePipe({
-        validators: [new MaxFileSizeValidator({ maxSize: 20000 })],
-      }),
-    )
+    @UploadedFiles()
     images: Array<Express.Multer.File>,
   ) {
     return this.sellersService.create(createSellerDto, images).catch((err) => {
