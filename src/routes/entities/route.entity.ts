@@ -9,12 +9,10 @@ import {
   ManyToMany,
   JoinTable,
   ManyToOne,
-  Unique,
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 
 @Entity('routes')
-@Unique(['date', 'user'])
 export class Route {
   @PrimaryGeneratedColumn()
   id: number;
@@ -24,6 +22,9 @@ export class Route {
 
   @Column('text', { nullable: true, default: '' })
   notes: string;
+
+  @Column('numeric')
+  ciclo: number;
 
   @Column({ default: true, name: 'is_active' })
   isActive: boolean;

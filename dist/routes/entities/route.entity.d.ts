@@ -4,6 +4,7 @@ export declare class Route {
     id: number;
     date: Date;
     notes: string;
+    ciclo: number;
     isActive: boolean;
     createdAt: string;
     updatedAt: number;

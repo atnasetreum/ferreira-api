@@ -41,12 +41,22 @@ let RoutesService = RoutesService_1 = class RoutesService {
         if (!sellersEntity.length) {
             throw new common_1.BadGatewayException('Sellers no identificados');
         }
+        const ciclo = await this.routeRepository.find({
+            where: {
+                date,
+                user: {
+                    id: user.id,
+                },
+            },
+            relations: ['user'],
+        });
         try {
             const routeCreate = await this.routeRepository.create({
                 date,
                 user,
                 sellers: sellersEntity,
                 notes,
+                ciclo: ciclo.length + 1,
             });
             const route = await this.routeRepository.save(routeCreate);
             return route;

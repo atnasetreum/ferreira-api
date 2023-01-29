@@ -28,6 +28,10 @@ __decorate([
     __metadata("design:type", String)
 ], Route.prototype, "notes", void 0);
 __decorate([
+    (0, typeorm_1.Column)('numeric'),
+    __metadata("design:type", Number)
+], Route.prototype, "ciclo", void 0);
+__decorate([
     (0, typeorm_1.Column)({ default: true, name: 'is_active' }),
     __metadata("design:type", Boolean)
 ], Route.prototype, "isActive", void 0);
@@ -50,8 +54,7 @@ __decorate([
     __metadata("design:type", Array)
 ], Route.prototype, "sellers", void 0);
 Route = __decorate([
-    (0, typeorm_1.Entity)('routes'),
-    (0, typeorm_1.Unique)(['date', 'user'])
+    (0, typeorm_1.Entity)('routes')
 ], Route);
 exports.Route = Route;
 //# sourceMappingURL=route.entity.js.map
