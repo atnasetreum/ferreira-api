@@ -24,6 +24,10 @@ __decorate([
     __metadata("design:type", Date)
 ], Route.prototype, "date", void 0);
 __decorate([
+    (0, typeorm_1.Column)('text', { nullable: true, default: '' }),
+    __metadata("design:type", String)
+], Route.prototype, "notes", void 0);
+__decorate([
     (0, typeorm_1.Column)({ default: true, name: 'is_active' }),
     __metadata("design:type", Boolean)
 ], Route.prototype, "isActive", void 0);

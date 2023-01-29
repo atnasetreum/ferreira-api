@@ -13,7 +13,7 @@ export declare class RoutesService {
     constructor(routeRepository: Repository<Route>, commonService: CommonService, usersService: UsersService, sellersService: SellersService);
     create(createRouteDto: CreateRouteDto): Promise<Route>;
     findAll(): Promise<Route[]>;
-    findOne(id: number): string;
-    update(id: number, updateRouteDto: UpdateRouteDto): string;
+    findOne(id: number): Promise<Route>;
+    update(id: number, updateRouteDto: UpdateRouteDto): Promise<Route>;
     remove(id: number): Promise<string>;
 }

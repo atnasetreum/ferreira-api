@@ -1,4 +1,11 @@
-import { IsDate, IsNotEmpty, IsNumber, IsPositive } from 'class-validator';
+import {
+  IsDate,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  IsString,
+} from 'class-validator';
 
 export class CreateRouteDto {
   @IsDate()
@@ -12,4 +19,8 @@ export class CreateRouteDto {
   @IsNumber({}, { each: true })
   @IsNotEmpty()
   readonly sellers: number[];
+
+  @IsString()
+  @IsOptional()
+  readonly notes: string;
 }

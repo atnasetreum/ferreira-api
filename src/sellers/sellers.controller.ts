@@ -11,8 +11,6 @@ import {
   BadRequestException,
   UploadedFiles,
   Query,
-  ParseFilePipe,
-  MaxFileSizeValidator,
 } from '@nestjs/common';
 import { SellersService } from './sellers.service';
 import { CreateSellerDto, QuerySellerDto, UpdateSellerDto } from './dto';

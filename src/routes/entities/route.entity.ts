@@ -8,14 +8,12 @@ import {
   JoinColumn,
   ManyToMany,
   JoinTable,
-  Index,
   ManyToOne,
   Unique,
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 
 @Entity('routes')
-//@Index(['date', 'user'], { unique: true })
 @Unique(['date', 'user'])
 export class Route {
   @PrimaryGeneratedColumn()
@@ -23,6 +21,9 @@ export class Route {
 
   @Column({ type: 'date' })
   date: Date;
+
+  @Column('text', { nullable: true, default: '' })
+  notes: string;
 
   @Column({ default: true, name: 'is_active' })
   isActive: boolean;

@@ -30,7 +30,7 @@ let RoutesService = RoutesService_1 = class RoutesService {
         this.logger = new common_1.Logger(RoutesService_1.name);
     }
     async create(createRouteDto) {
-        const { date, userId, sellers } = createRouteDto;
+        const { date, userId, sellers, notes } = createRouteDto;
         const user = await this.usersService.findOne(userId);
         const sellersEntity = [];
         for (let i = 0, t = sellers.length; i < t; i++) {
@@ -46,6 +46,7 @@ let RoutesService = RoutesService_1 = class RoutesService {
                 date,
                 user,
                 sellers: sellersEntity,
+                notes,
             });
             const route = await this.routeRepository.save(routeCreate);
             return route;
@@ -60,7 +61,7 @@ let RoutesService = RoutesService_1 = class RoutesService {
     }
     async findAll() {
         try {
-            const users = await this.routeRepository.find({
+            const routes = await this.routeRepository.find({
                 where: {
                     isActive: true,
                 },
@@ -75,7 +76,7 @@ let RoutesService = RoutesService_1 = class RoutesService {
                     id: 'DESC',
                 },
             });
-            return users;
+            return routes;
         }
         catch (error) {
             this.commonService.handleExceptions({
@@ -85,11 +86,43 @@ let RoutesService = RoutesService_1 = class RoutesService {
             });
         }
     }
-    findOne(id) {
-        return `This action returns a #${id} route`;
+    async findOne(id) {
+        const route = await this.routeRepository.findOneBy({ id });
+        if (!route) {
+            throw new common_1.NotFoundException(`Ruta con id ${id}, no encontrada`);
+        }
+        return route;
     }
-    update(id, updateRouteDto) {
-        return `This action updates a #${id} route`;
+    async update(id, updateRouteDto) {
+        await this.findOne(id);
+        const user = await this.usersService.findOne(updateRouteDto.userId);
+        const sellersEntity = [];
+        for (let i = 0, t = updateRouteDto.sellers.length; i < t; i++) {
+            const sellerId = updateRouteDto.sellers[i];
+            const seller = await this.sellersService.findOne(sellerId);
+            sellersEntity.push(seller);
+        }
+        if (!sellersEntity.length) {
+            throw new common_1.BadGatewayException('Sellers no identificados');
+        }
+        try {
+            const route = await this.routeRepository.preload({
+                id,
+                date: updateRouteDto.date,
+                notes: updateRouteDto.notes,
+                user,
+                sellers: sellersEntity,
+            });
+            const routeUpgrade = await this.routeRepository.save(route);
+            return routeUpgrade;
+        }
+        catch (error) {
+            this.commonService.handleExceptions({
+                ref: 'update',
+                error,
+                logger: this.logger,
+            });
+        }
     }
     async remove(id) {
         await this.findOne(id);
