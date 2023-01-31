@@ -57,14 +57,14 @@ export class CommonService {
   private errorsDB(error) {
     switch (error?.code) {
       case '23505':
-        throw new BadRequestException(error?.message || error?.detail);
+        throw new BadRequestException(error?.detail || error?.message);
       case '23502':
-        throw new BadRequestException(error?.message || error?.detail);
+        throw new BadRequestException(error?.detail || error?.message);
       case '22P02':
-        throw new BadRequestException(error?.message || error?.detail);
+        throw new BadRequestException(error?.detail || error?.message);
       case '23503':
         throw new BadRequestException(
-          'Eliminar los sellers dependientes primero',
+          'Eliminar dependencias a otras tablas primero',
         );
       default:
         break;

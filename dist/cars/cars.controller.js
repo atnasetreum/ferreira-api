@@ -36,8 +36,11 @@ let CarsController = class CarsController {
     findOne(id) {
         return this.carsService.findOne(+id);
     }
-    update(id, updateCarDto) {
-        return this.carsService.update(+id, updateCarDto);
+    update(id, updateCarDto, image) {
+        return this.carsService.update(+id, updateCarDto, image).catch((err) => {
+            (0, fs_1.unlinkSync)(image.path);
+            throw new common_1.BadRequestException(err === null || err === void 0 ? void 0 : err.message);
+        });
     }
     remove(id) {
         return this.carsService.remove(+id);
@@ -76,10 +79,21 @@ __decorate([
 ], CarsController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image', {
+        storage: (0, multer_1.diskStorage)({
+            destination: './public/static/images/cars',
+            filename(req, file, callback) {
+                const fileExtension = file.mimetype.split('/')[1];
+                const fileName = `${(0, uuid_1.v4)()}.${fileExtension}`;
+                callback(null, fileName);
+            },
+        }),
+    })),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, dto_1.UpdateCarDto]),
+    __metadata("design:paramtypes", [String, dto_1.UpdateCarDto, Object]),
     __metadata("design:returntype", void 0)
 ], CarsController.prototype, "update", null);
 __decorate([

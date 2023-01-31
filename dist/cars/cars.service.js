@@ -20,6 +20,8 @@ const common_service_1 = require("../common/common.service");
 const logistics_service_1 = require("../logistics/logistics.service");
 const typeorm_2 = require("typeorm");
 const car_entity_1 = require("./entities/car.entity");
+const fs_1 = require("fs");
+const path_1 = require("path");
 let CarsService = CarsService_1 = class CarsService {
     constructor(carRepository, commonService, logisticsService) {
         this.carRepository = carRepository;
@@ -74,7 +76,7 @@ let CarsService = CarsService_1 = class CarsService {
                 relations: ['logistica'],
             });
             if (!car) {
-                throw new common_1.NotFoundException(`Automovil con ID: ${id} no existe`);
+                throw new common_1.NotFoundException(`Camioneta con ID: ${id} no existe`);
             }
             return car;
         }
@@ -86,13 +88,38 @@ let CarsService = CarsService_1 = class CarsService {
             });
         }
     }
-    update(id, updateCarDto) {
-        return `This action updates a #${id} car`;
+    async removeImageByName(imgName) {
+        const urlBase = (0, path_1.resolve)() + `/public/static/images/cars`;
+        const image = `${urlBase}/${imgName}`;
+        if ((0, fs_1.existsSync)(image)) {
+            (0, fs_1.unlinkSync)(image);
+        }
+        return true;
+    }
+    async update(id, updateCarDto, image) {
+        const carPreview = await this.findOne(id);
+        const logistica = await this.logisticsService.findOne(updateCarDto.logisticaId);
+        if (image) {
+            await this.removeImageByName(carPreview.image);
+        }
+        try {
+            const car = await this.carRepository.preload(Object.assign({ id, placa: updateCarDto.placa, logistica }, (image && { image: image.filename })));
+            await this.carRepository.save(car);
+            return this.findOne(id);
+        }
+        catch (error) {
+            this.commonService.handleExceptions({
+                ref: 'update',
+                error,
+                logger: this.logger,
+            });
+        }
     }
     async remove(id) {
         const car = await this.findOne(id);
         try {
             await this.carRepository.delete(id);
+            await this.removeImageByName(car.image);
             return car;
         }
         catch (error) {

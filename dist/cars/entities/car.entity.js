@@ -43,7 +43,8 @@ __decorate([
     __metadata("design:type", logistic_entity_1.Logistic)
 ], Car.prototype, "logistica", void 0);
 Car = __decorate([
-    (0, typeorm_1.Entity)('cars')
+    (0, typeorm_1.Entity)('cars'),
+    (0, typeorm_1.Unique)(['placa', 'logistica'])
 ], Car);
 exports.Car = Car;
 //# sourceMappingURL=car.entity.js.map

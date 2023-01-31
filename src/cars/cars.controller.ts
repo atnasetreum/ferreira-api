@@ -55,8 +55,27 @@ export class CarsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCarDto: UpdateCarDto) {
-    return this.carsService.update(+id, updateCarDto);
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './public/static/images/cars',
+        filename(req, file, callback) {
+          const fileExtension = file.mimetype.split('/')[1];
+          const fileName = `${uuid()}.${fileExtension}`;
+          callback(null, fileName);
+        },
+      }),
+    }),
+  )
+  update(
+    @Param('id') id: string,
+    @Body() updateCarDto: UpdateCarDto,
+    @UploadedFile() image: Express.Multer.File,
+  ) {
+    return this.carsService.update(+id, updateCarDto, image).catch((err) => {
+      unlinkSync(image.path);
+      throw new BadRequestException(err?.message);
+    });
   }
 
   @Delete(':id')

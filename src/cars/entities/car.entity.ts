@@ -6,9 +6,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  Unique,
 } from 'typeorm';
 
 @Entity('cars')
+@Unique(['placa', 'logistica'])
 export class Car {
   @PrimaryGeneratedColumn()
   id: number;

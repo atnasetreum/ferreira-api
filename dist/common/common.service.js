@@ -53,13 +53,13 @@ let CommonService = class CommonService {
     errorsDB(error) {
         switch (error === null || error === void 0 ? void 0 : error.code) {
             case '23505':
-                throw new common_1.BadRequestException((error === null || error === void 0 ? void 0 : error.message) || (error === null || error === void 0 ? void 0 : error.detail));
+                throw new common_1.BadRequestException((error === null || error === void 0 ? void 0 : error.detail) || (error === null || error === void 0 ? void 0 : error.message));
             case '23502':
-                throw new common_1.BadRequestException((error === null || error === void 0 ? void 0 : error.message) || (error === null || error === void 0 ? void 0 : error.detail));
+                throw new common_1.BadRequestException((error === null || error === void 0 ? void 0 : error.detail) || (error === null || error === void 0 ? void 0 : error.message));
             case '22P02':
-                throw new common_1.BadRequestException((error === null || error === void 0 ? void 0 : error.message) || (error === null || error === void 0 ? void 0 : error.detail));
+                throw new common_1.BadRequestException((error === null || error === void 0 ? void 0 : error.detail) || (error === null || error === void 0 ? void 0 : error.message));
             case '23503':
-                throw new common_1.BadRequestException('Eliminar los sellers dependientes primero');
+                throw new common_1.BadRequestException('Eliminar dependencias a otras tablas primero');
             default:
                 break;
         }

@@ -7,6 +7,6 @@ export declare class CarsController {
     create(createCarDto: CreateCarDto, image: Express.Multer.File): Promise<import("./entities/car.entity").Car>;
     findAll(): Promise<import("./entities/car.entity").Car[]>;
     findOne(id: string): Promise<import("./entities/car.entity").Car>;
-    update(id: string, updateCarDto: UpdateCarDto): string;
+    update(id: string, updateCarDto: UpdateCarDto, image: Express.Multer.File): Promise<import("./entities/car.entity").Car>;
     remove(id: string): Promise<import("./entities/car.entity").Car>;
 }

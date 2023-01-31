@@ -13,6 +13,7 @@ export declare class CarsService {
     create(createCarDto: CreateCarDto, image: Express.Multer.File): Promise<Car>;
     findAll(): Promise<Car[]>;
     findOne(id: number): Promise<Car>;
-    update(id: number, updateCarDto: UpdateCarDto): string;
+    removeImageByName(imgName: string): Promise<boolean>;
+    update(id: number, updateCarDto: UpdateCarDto, image: Express.Multer.File): Promise<Car>;
     remove(id: number): Promise<Car>;
 }
