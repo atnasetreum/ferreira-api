@@ -1,3 +1,4 @@
+import { Car } from 'src/cars/entities/car.entity';
 import { Seller } from 'src/sellers/entities';
 import {
   Entity,
@@ -38,6 +39,10 @@ export class Route {
   @ManyToOne(() => User)
   @JoinColumn()
   user: User;
+
+  @ManyToOne(() => Car)
+  @JoinColumn()
+  car: Car;
 
   @ManyToMany(() => Seller, { eager: true })
   @JoinTable({ name: 'routes_sellers' })

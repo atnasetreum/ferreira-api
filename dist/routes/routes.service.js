@@ -16,22 +16,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RoutesService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
+const cars_service_1 = require("../cars/cars.service");
 const common_service_1 = require("../common/common.service");
 const sellers_service_1 = require("../sellers/sellers.service");
 const users_service_1 = require("../users/users.service");
 const typeorm_2 = require("typeorm");
 const route_entity_1 = require("./entities/route.entity");
 let RoutesService = RoutesService_1 = class RoutesService {
-    constructor(routeRepository, commonService, usersService, sellersService) {
+    constructor(routeRepository, commonService, usersService, sellersService, carsService) {
         this.routeRepository = routeRepository;
         this.commonService = commonService;
         this.usersService = usersService;
         this.sellersService = sellersService;
+        this.carsService = carsService;
         this.logger = new common_1.Logger(RoutesService_1.name);
     }
     async create(createRouteDto) {
-        const { date, userId, sellers, notes } = createRouteDto;
+        const { date, userId, sellers, notes, carId } = createRouteDto;
         const user = await this.usersService.findOne(userId);
+        const car = await this.carsService.findOne(carId);
         const sellersEntity = [];
         for (let i = 0, t = sellers.length; i < t; i++) {
             const sellerId = sellers[i];
@@ -55,6 +58,7 @@ let RoutesService = RoutesService_1 = class RoutesService {
                 date,
                 user,
                 sellers: sellersEntity,
+                car,
                 notes,
                 ciclo: ciclo.length + 1,
             });
@@ -69,14 +73,17 @@ let RoutesService = RoutesService_1 = class RoutesService {
             });
         }
     }
-    async findAll() {
+    async findAll(query) {
         try {
             const routes = await this.routeRepository.find({
-                where: {
-                    isActive: true,
-                },
+                where: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({ isActive: true }, (query.id && { id: query.id })), (query.date && { date: query.date })), (query.driverId && { user: { id: query.driverId } })), (query.carId && { car: { id: query.carId } })), (query.logisticaId && {
+                    car: { logistica: { id: query.logisticaId } },
+                })),
                 relations: {
                     user: true,
+                    car: {
+                        logistica: true,
+                    },
                     sellers: {
                         references: true,
                         referencePhones: true,
@@ -106,6 +113,7 @@ let RoutesService = RoutesService_1 = class RoutesService {
     async update(id, updateRouteDto) {
         await this.findOne(id);
         const user = await this.usersService.findOne(updateRouteDto.userId);
+        const car = await this.carsService.findOne(updateRouteDto.carId);
         const sellersEntity = [];
         for (let i = 0, t = updateRouteDto.sellers.length; i < t; i++) {
             const sellerId = updateRouteDto.sellers[i];
@@ -122,6 +130,7 @@ let RoutesService = RoutesService_1 = class RoutesService {
                 notes: updateRouteDto.notes,
                 user,
                 sellers: sellersEntity,
+                car,
             });
             const routeUpgrade = await this.routeRepository.save(route);
             return routeUpgrade;
@@ -155,7 +164,8 @@ RoutesService = RoutesService_1 = __decorate([
     __metadata("design:paramtypes", [typeorm_2.Repository,
         common_service_1.CommonService,
         users_service_1.UsersService,
-        sellers_service_1.SellersService])
+        sellers_service_1.SellersService,
+        cars_service_1.CarsService])
 ], RoutesService);
 exports.RoutesService = RoutesService;
 //# sourceMappingURL=routes.service.js.map

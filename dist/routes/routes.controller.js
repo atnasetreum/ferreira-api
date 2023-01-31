@@ -23,8 +23,8 @@ let RoutesController = class RoutesController {
     create(createRouteDto) {
         return this.routesService.create(createRouteDto);
     }
-    findAll() {
-        return this.routesService.findAll();
+    findAll(query) {
+        return this.routesService.findAll(query);
     }
     findOne(id) {
         return this.routesService.findOne(+id);
@@ -45,8 +45,9 @@ __decorate([
 ], RoutesController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [dto_1.QueryRouteDto]),
     __metadata("design:returntype", void 0)
 ], RoutesController.prototype, "findAll", null);
 __decorate([

@@ -5,11 +5,12 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CarsService } from 'src/cars/cars.service';
 import { CommonService } from 'src/common/common.service';
 import { SellersService } from 'src/sellers/sellers.service';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
-import { CreateRouteDto, UpdateRouteDto } from './dto';
+import { CreateRouteDto, QueryRouteDto, UpdateRouteDto } from './dto';
 import { Route } from './entities/route.entity';
 
 @Injectable()
@@ -22,12 +23,14 @@ export class RoutesService {
     private readonly commonService: CommonService,
     private readonly usersService: UsersService,
     private readonly sellersService: SellersService,
+    private readonly carsService: CarsService,
   ) {}
 
   async create(createRouteDto: CreateRouteDto) {
-    const { date, userId, sellers, notes } = createRouteDto;
+    const { date, userId, sellers, notes, carId } = createRouteDto;
 
     const user = await this.usersService.findOne(userId);
+    const car = await this.carsService.findOne(carId);
 
     const sellersEntity = [];
 
@@ -56,6 +59,7 @@ export class RoutesService {
         date,
         user,
         sellers: sellersEntity,
+        car,
         notes,
         ciclo: ciclo.length + 1,
       });
@@ -70,15 +74,24 @@ export class RoutesService {
     }
   }
 
-  async findAll() {
+  async findAll(query: QueryRouteDto) {
     try {
       const routes = await this.routeRepository.find({
         where: {
           isActive: true,
+          ...(query.id && { id: query.id }),
+          ...(query.date && { date: query.date }),
+          ...(query.driverId && { user: { id: query.driverId } }),
+          ...(query.carId && { car: { id: query.carId } }),
+          ...(query.logisticaId && {
+            car: { logistica: { id: query.logisticaId } },
+          }),
         },
-        //relations: ['user', 'sellers'],
         relations: {
           user: true,
+          car: {
+            logistica: true,
+          },
           sellers: {
             references: true,
             referencePhones: true,
@@ -112,6 +125,7 @@ export class RoutesService {
   async update(id: number, updateRouteDto: UpdateRouteDto) {
     await this.findOne(id);
     const user = await this.usersService.findOne(updateRouteDto.userId);
+    const car = await this.carsService.findOne(updateRouteDto.carId);
 
     const sellersEntity = [];
 
@@ -132,6 +146,7 @@ export class RoutesService {
         notes: updateRouteDto.notes,
         user,
         sellers: sellersEntity,
+        car,
       });
       const routeUpgrade = await this.routeRepository.save(route);
       return routeUpgrade;

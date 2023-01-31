@@ -23,4 +23,8 @@ export class CreateRouteDto {
   @IsString()
   @IsOptional()
   readonly notes: string;
+
+  @IsPositive()
+  @IsNotEmpty()
+  readonly carId: number;
 }

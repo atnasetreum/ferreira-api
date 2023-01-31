@@ -33,5 +33,10 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateRouteDto.prototype, "notes", void 0);
+__decorate([
+    (0, class_validator_1.IsPositive)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", Number)
+], CreateRouteDto.prototype, "carId", void 0);
 exports.CreateRouteDto = CreateRouteDto;
 //# sourceMappingURL=create-route.dto.js.map

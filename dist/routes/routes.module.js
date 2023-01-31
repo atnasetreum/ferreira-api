@@ -15,6 +15,7 @@ const route_entity_1 = require("./entities/route.entity");
 const common_module_1 = require("../common/common.module");
 const users_module_1 = require("../users/users.module");
 const sellers_module_1 = require("../sellers/sellers.module");
+const cars_module_1 = require("../cars/cars.module");
 let RoutesModule = class RoutesModule {
 };
 RoutesModule = __decorate([
@@ -24,6 +25,7 @@ RoutesModule = __decorate([
             common_module_1.CommonModule,
             users_module_1.UsersModule,
             sellers_module_1.SellersModule,
+            cars_module_1.CarsModule,
         ],
         controllers: [routes_controller_1.RoutesController],
         providers: [routes_service_1.RoutesService],

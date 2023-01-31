@@ -6,9 +6,10 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { RoutesService } from './routes.service';
-import { CreateRouteDto, UpdateRouteDto } from './dto';
+import { CreateRouteDto, QueryRouteDto, UpdateRouteDto } from './dto';
 
 @Controller('routes')
 export class RoutesController {
@@ -20,8 +21,8 @@ export class RoutesController {
   }
 
   @Get()
-  findAll() {
-    return this.routesService.findAll();
+  findAll(@Query() query: QueryRouteDto) {
+    return this.routesService.findAll(query);
   }
 
   @Get(':id')

@@ -12,6 +12,8 @@ import { CommonModule } from './common/common.module';
 import { InegiModule } from './inegi/inegi.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { LogisticsModule } from './logistics/logistics.module';
+import { CarsModule } from './cars/cars.module';
 
 @Module({
   imports: [
@@ -41,6 +43,8 @@ import { join } from 'path';
     AuthModule,
     CommonModule,
     InegiModule,
+    LogisticsModule,
+    CarsModule,
   ],
   controllers: [],
   providers: [],
