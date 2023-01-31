@@ -8,6 +8,6 @@ export declare class UsersController {
     usersLogin(): Promise<any[]>;
     usersDrivers(): Promise<import("./entities/user.entity").User[]>;
     findOne(id: string): Promise<import("./entities/user.entity").User>;
-    update(id: string, updateUserDto: UpdateUserDto): Promise<"" | import("typeorm").UpdateResult>;
+    update(id: string, updateUserDto: UpdateUserDto): Promise<import("typeorm").UpdateResult | "">;
     remove(id: string): Promise<string>;
 }

@@ -15,6 +15,6 @@ export declare class UsersService {
     usersLogin(): Promise<any[]>;
     findOne(id: number): Promise<User>;
     findOneBy(where: FindOptionsWhere<User>): Promise<User>;
-    update(id: number, updateUserDto: UpdateUserDto): Promise<"" | import("typeorm").UpdateResult>;
+    update(id: number, updateUserDto: UpdateUserDto): Promise<import("typeorm").UpdateResult | "">;
     remove(id: number): Promise<string>;
 }
