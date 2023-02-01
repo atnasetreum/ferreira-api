@@ -39,6 +39,9 @@ export class SellersController {
           callback(null, fileName);
         },
       }),
+      limits: {
+        fileSize: 2097152, //2 Megabytes
+      },
     }),
   )
   create(
@@ -88,6 +91,9 @@ export class SellersController {
           callback(null, fileName);
         },
       }),
+      limits: {
+        fileSize: 2097152, //2 Megabytes
+      },
     }),
   )
   update(

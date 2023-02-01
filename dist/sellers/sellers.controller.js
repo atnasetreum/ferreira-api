@@ -66,6 +66,9 @@ __decorate([
                 callback(null, fileName);
             },
         }),
+        limits: {
+            fileSize: 2097152,
+        },
     })),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.UploadedFiles)()),
@@ -114,6 +117,9 @@ __decorate([
                 callback(null, fileName);
             },
         }),
+        limits: {
+            fileSize: 2097152,
+        },
     })),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
