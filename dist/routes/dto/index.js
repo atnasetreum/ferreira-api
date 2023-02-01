@@ -17,4 +17,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./create-route.dto"), exports);
 __exportStar(require("./update-route.dto"), exports);
 __exportStar(require("./query-route.dto"), exports);
+__exportStar(require("./query-report-route.dto"), exports);
 //# sourceMappingURL=index.js.map

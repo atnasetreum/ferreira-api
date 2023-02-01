@@ -27,6 +27,9 @@ export class Route {
   @Column('numeric')
   ciclo: number;
 
+  @Column({ type: 'numeric', precision: 10, scale: 2 })
+  pago: number;
+
   @Column({ default: true, name: 'is_active' })
   isActive: boolean;
 

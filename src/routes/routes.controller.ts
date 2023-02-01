@@ -9,7 +9,12 @@ import {
   Query,
 } from '@nestjs/common';
 import { RoutesService } from './routes.service';
-import { CreateRouteDto, QueryRouteDto, UpdateRouteDto } from './dto';
+import {
+  CreateRouteDto,
+  QueryReportRouteDto,
+  QueryRouteDto,
+  UpdateRouteDto,
+} from './dto';
 
 @Controller('routes')
 export class RoutesController {
@@ -23,6 +28,11 @@ export class RoutesController {
   @Get()
   findAll(@Query() query: QueryRouteDto) {
     return this.routesService.findAll(query);
+  }
+
+  @Get('reportes')
+  getDataReport(@Query() query: QueryReportRouteDto) {
+    return this.routesService.getDataReport(query);
   }
 
   @Get(':id')

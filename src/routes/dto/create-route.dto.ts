@@ -27,4 +27,8 @@ export class CreateRouteDto {
   @IsPositive()
   @IsNotEmpty()
   readonly carId: number;
+
+  @IsPositive()
+  @IsNotEmpty()
+  readonly pago: number;
 }

@@ -4,4 +4,5 @@ export declare class CreateRouteDto {
     readonly sellers: number[];
     readonly notes: string;
     readonly carId: number;
+    readonly pago: number;
 }

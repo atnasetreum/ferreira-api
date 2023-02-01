@@ -32,7 +32,7 @@ let RoutesService = RoutesService_1 = class RoutesService {
         this.logger = new common_1.Logger(RoutesService_1.name);
     }
     async create(createRouteDto) {
-        const { date, userId, sellers, notes, carId } = createRouteDto;
+        const { date, userId, sellers, notes, carId, pago } = createRouteDto;
         const user = await this.usersService.findOne(userId);
         const car = await this.carsService.findOne(carId);
         const sellersEntity = [];
@@ -61,6 +61,7 @@ let RoutesService = RoutesService_1 = class RoutesService {
                 car,
                 notes,
                 ciclo: ciclo.length + 1,
+                pago: !ciclo.length ? pago : 0,
             });
             const route = await this.routeRepository.save(routeCreate);
             return route;
@@ -103,6 +104,51 @@ let RoutesService = RoutesService_1 = class RoutesService {
             });
         }
     }
+    async getDataReport(query) {
+        var _a;
+        try {
+            const { startDate, endDate, logisticaId } = query;
+            const routes = await this.routeRepository.find({
+                where: {
+                    date: (0, typeorm_2.Between)(startDate, endDate),
+                    car: {
+                        logistica: {
+                            id: logisticaId,
+                        },
+                    },
+                },
+                relations: ['car', 'user'],
+                order: {
+                    id: 'DESC',
+                },
+            });
+            const uniqueKeys = ['date'];
+            const grouped = {};
+            for (const o of routes) {
+                const key = uniqueKeys.map((k) => o[k]).join('_');
+                ((_a = grouped[key]) !== null && _a !== void 0 ? _a : (grouped[key] = [])).push(o);
+            }
+            const result = Object.values(grouped);
+            let mergeResult = [];
+            for (let i = 0, t = result.length; i < t; i++) {
+                const array = result[i];
+                mergeResult = mergeResult.concat(array);
+            }
+            return mergeResult
+                .sort(function (a, b) {
+                const aa = a.date.split('/').reverse().join(), bb = b.date.split('/').reverse().join();
+                return aa < bb ? -1 : aa > bb ? 1 : 0;
+            })
+                .filter((row) => Number(row.pago) > 0);
+        }
+        catch (error) {
+            this.commonService.handleExceptions({
+                ref: 'getDataReport',
+                error,
+                logger: this.logger,
+            });
+        }
+    }
     async findOne(id) {
         const route = await this.routeRepository.findOneBy({ id });
         if (!route) {
@@ -128,6 +174,7 @@ let RoutesService = RoutesService_1 = class RoutesService {
                 id,
                 date: updateRouteDto.date,
                 notes: updateRouteDto.notes,
+                pago: updateRouteDto.pago,
                 user,
                 sellers: sellersEntity,
                 car,

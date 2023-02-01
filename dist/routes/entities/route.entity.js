@@ -33,6 +33,10 @@ __decorate([
     __metadata("design:type", Number)
 ], Route.prototype, "ciclo", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ type: 'numeric', precision: 10, scale: 2 }),
+    __metadata("design:type", Number)
+], Route.prototype, "pago", void 0);
+__decorate([
     (0, typeorm_1.Column)({ default: true, name: 'is_active' }),
     __metadata("design:type", Boolean)
 ], Route.prototype, "isActive", void 0);

@@ -9,39 +9,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateRouteDto = void 0;
+exports.QueryReportRouteDto = void 0;
 const class_validator_1 = require("class-validator");
-class CreateRouteDto {
+class QueryReportRouteDto {
 }
 __decorate([
     (0, class_validator_1.IsDate)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", Date)
-], CreateRouteDto.prototype, "date", void 0);
+], QueryReportRouteDto.prototype, "startDate", void 0);
+__decorate([
+    (0, class_validator_1.IsDate)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", Date)
+], QueryReportRouteDto.prototype, "endDate", void 0);
 __decorate([
     (0, class_validator_1.IsPositive)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", Number)
-], CreateRouteDto.prototype, "userId", void 0);
-__decorate([
-    (0, class_validator_1.IsNumber)({}, { each: true }),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", Array)
-], CreateRouteDto.prototype, "sellers", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
-], CreateRouteDto.prototype, "notes", void 0);
-__decorate([
-    (0, class_validator_1.IsPositive)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", Number)
-], CreateRouteDto.prototype, "carId", void 0);
-__decorate([
-    (0, class_validator_1.IsPositive)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", Number)
-], CreateRouteDto.prototype, "pago", void 0);
-exports.CreateRouteDto = CreateRouteDto;
-//# sourceMappingURL=create-route.dto.js.map
+], QueryReportRouteDto.prototype, "logisticaId", void 0);
+exports.QueryReportRouteDto = QueryReportRouteDto;
+//# sourceMappingURL=query-report-route.dto.js.map
