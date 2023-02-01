@@ -56,7 +56,6 @@ export class RoutesService {
           id: user.id,
         },
       },
-      relations: ['user'],
     });
 
     try {
@@ -125,6 +124,7 @@ export class RoutesService {
       const routes = await this.routeRepository.find({
         where: {
           date: Between(startDate, endDate),
+          ciclo: 1,
           car: {
             logistica: {
               id: logisticaId,
@@ -133,7 +133,7 @@ export class RoutesService {
         },
         relations: ['car', 'user'],
         order: {
-          id: 'DESC',
+          date: 'ASC',
         },
       });
 
@@ -153,13 +153,7 @@ export class RoutesService {
         mergeResult = mergeResult.concat(array);
       }
 
-      return mergeResult
-        .sort(function (a, b) {
-          const aa = a.date.split('/').reverse().join(),
-            bb = b.date.split('/').reverse().join();
-          return aa < bb ? -1 : aa > bb ? 1 : 0;
-        })
-        .filter((row) => Number(row.pago) > 0);
+      return mergeResult;
     } catch (error) {
       this.commonService.handleExceptions({
         ref: 'getDataReport',
@@ -180,7 +174,7 @@ export class RoutesService {
   }
 
   async update(id: number, updateRouteDto: UpdateRouteDto) {
-    await this.findOne(id);
+    const { ciclo } = await this.findOne(id);
     const user = await this.usersService.findOne(updateRouteDto.userId);
     const car = await this.carsService.findOne(updateRouteDto.carId);
 
@@ -201,7 +195,7 @@ export class RoutesService {
         id,
         date: updateRouteDto.date,
         notes: updateRouteDto.notes,
-        pago: updateRouteDto.pago,
+        pago: Number(ciclo) === 1 ? updateRouteDto.pago : 0,
         user,
         sellers: sellersEntity,
         car,
