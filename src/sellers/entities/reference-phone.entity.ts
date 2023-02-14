@@ -13,7 +13,7 @@ export class ReferencePhone {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('text')
+  @Column('text', { default: '' })
   name: string;
 
   @Column('text')

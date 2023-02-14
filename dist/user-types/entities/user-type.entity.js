@@ -15,7 +15,7 @@ const typeorm_1 = require("typeorm");
 var EUserType;
 (function (EUserType) {
     EUserType["ADMIN"] = "ADMIN";
-    EUserType["USER"] = "DRIVER";
+    EUserType["DRIVER"] = "DRIVER";
 })(EUserType = exports.EUserType || (exports.EUserType = {}));
 let UserType = class UserType {
 };

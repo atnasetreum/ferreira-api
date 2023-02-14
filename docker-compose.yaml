@@ -3,7 +3,7 @@ version: '3'
 services:
   db:
     env_file:
-      - .env.${NODE_ENV}
+      - .env.development
     image: postgres:14.3
     restart: always
     ports:

@@ -10,7 +10,7 @@ import {
 
 export enum EUserType {
   ADMIN = 'ADMIN',
-  USER = 'DRIVER',
+  DRIVER = 'DRIVER',
 }
 
 @Entity('userTypes')

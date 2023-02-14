@@ -1,7 +1,7 @@
 import { User } from 'src/users/entities/user.entity';
 export declare enum EUserType {
     ADMIN = "ADMIN",
-    USER = "DRIVER"
+    DRIVER = "DRIVER"
 }
 export declare class UserType {
     id: number;
