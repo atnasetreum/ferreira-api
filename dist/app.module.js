@@ -23,6 +23,7 @@ const serve_static_1 = require("@nestjs/serve-static");
 const path_1 = require("path");
 const logistics_module_1 = require("./logistics/logistics.module");
 const cars_module_1 = require("./cars/cars.module");
+const dashboard_module_1 = require("./dashboard/dashboard.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -56,6 +57,7 @@ AppModule = __decorate([
             inegi_module_1.InegiModule,
             logistics_module_1.LogisticsModule,
             cars_module_1.CarsModule,
+            dashboard_module_1.DashboardModule,
         ],
         controllers: [],
         providers: [],
