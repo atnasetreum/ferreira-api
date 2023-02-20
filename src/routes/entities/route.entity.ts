@@ -1,5 +1,4 @@
 import { Car } from 'src/cars/entities/car.entity';
-import { Seller } from 'src/sellers/entities';
 import {
   Entity,
   Column,
@@ -7,11 +6,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   JoinColumn,
-  ManyToMany,
-  JoinTable,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
+import { RouteSeller } from './route-seller.entity';
 
 @Entity('routes')
 export class Route {
@@ -47,7 +46,8 @@ export class Route {
   @JoinColumn()
   car: Car;
 
-  @ManyToMany(() => Seller, { eager: true })
-  @JoinTable({ name: 'routes_sellers' })
-  sellers: Seller[];
+  @OneToMany(() => RouteSeller, (routeSeller) => routeSeller.route, {
+    eager: true,
+  })
+  sellers: RouteSeller[];
 }

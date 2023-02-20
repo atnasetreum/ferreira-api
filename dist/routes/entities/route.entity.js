@@ -11,9 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Route = void 0;
 const car_entity_1 = require("../../cars/entities/car.entity");
-const entities_1 = require("../../sellers/entities");
 const typeorm_1 = require("typeorm");
 const user_entity_1 = require("../../users/entities/user.entity");
+const route_seller_entity_1 = require("./route-seller.entity");
 let Route = class Route {
 };
 __decorate([
@@ -59,8 +59,9 @@ __decorate([
     __metadata("design:type", car_entity_1.Car)
 ], Route.prototype, "car", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => entities_1.Seller, { eager: true }),
-    (0, typeorm_1.JoinTable)({ name: 'routes_sellers' }),
+    (0, typeorm_1.OneToMany)(() => route_seller_entity_1.RouteSeller, (routeSeller) => routeSeller.route, {
+        eager: true,
+    }),
     __metadata("design:type", Array)
 ], Route.prototype, "sellers", void 0);
 Route = __decorate([

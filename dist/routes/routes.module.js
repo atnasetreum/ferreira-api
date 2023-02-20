@@ -16,12 +16,13 @@ const common_module_1 = require("../common/common.module");
 const users_module_1 = require("../users/users.module");
 const sellers_module_1 = require("../sellers/sellers.module");
 const cars_module_1 = require("../cars/cars.module");
+const entities_1 = require("./entities");
 let RoutesModule = class RoutesModule {
 };
 RoutesModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            typeorm_1.TypeOrmModule.forFeature([route_entity_1.Route]),
+            typeorm_1.TypeOrmModule.forFeature([route_entity_1.Route, entities_1.RouteSeller]),
             common_module_1.CommonModule,
             users_module_1.UsersModule,
             sellers_module_1.SellersModule,

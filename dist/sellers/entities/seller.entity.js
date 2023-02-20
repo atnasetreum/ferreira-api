@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var Seller_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Seller = void 0;
+const entities_1 = require("../../routes/entities");
 const typeorm_1 = require("typeorm");
 const reference_phone_entity_1 = require("./reference-phone.entity");
 const reference_entity_1 = require("./reference.entity");
@@ -98,6 +99,10 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => Seller_1, (seller) => seller.parent),
     __metadata("design:type", Array)
 ], Seller.prototype, "sellers", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => entities_1.RouteSeller, (routeSeller) => routeSeller.seller),
+    __metadata("design:type", Array)
+], Seller.prototype, "routeSeller", void 0);
 Seller = Seller_1 = __decorate([
     (0, typeorm_1.Entity)('sellers')
 ], Seller);

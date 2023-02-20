@@ -21,10 +21,11 @@ const common_service_1 = require("../common/common.service");
 const sellers_service_1 = require("../sellers/sellers.service");
 const users_service_1 = require("../users/users.service");
 const typeorm_2 = require("typeorm");
-const route_entity_1 = require("./entities/route.entity");
+const entities_1 = require("./entities");
 let RoutesService = RoutesService_1 = class RoutesService {
-    constructor(routeRepository, commonService, usersService, sellersService, carsService) {
+    constructor(routeRepository, routeSellerRepository, commonService, usersService, sellersService, carsService) {
         this.routeRepository = routeRepository;
+        this.routeSellerRepository = routeSellerRepository;
         this.commonService = commonService;
         this.usersService = usersService;
         this.sellersService = sellersService;
@@ -33,17 +34,11 @@ let RoutesService = RoutesService_1 = class RoutesService {
     }
     async create(createRouteDto) {
         const { date, userId, sellers, notes, carId, pago } = createRouteDto;
-        const user = await this.usersService.findOne(userId);
-        const car = await this.carsService.findOne(carId);
-        const sellersEntity = [];
-        for (let i = 0, t = sellers.length; i < t; i++) {
-            const sellerId = sellers[i];
-            const seller = await this.sellersService.findOne(sellerId);
-            sellersEntity.push(seller);
-        }
-        if (!sellersEntity.length) {
+        if (!sellers.length) {
             throw new common_1.BadGatewayException('Sellers no identificados');
         }
+        const user = await this.usersService.findOne(userId);
+        const car = await this.carsService.findOne(carId);
         const ciclo = await this.routeRepository.find({
             where: {
                 date,
@@ -56,13 +51,26 @@ let RoutesService = RoutesService_1 = class RoutesService {
             const routeCreate = await this.routeRepository.create({
                 date,
                 user,
-                sellers: sellersEntity,
+                sellers: [],
                 car,
                 notes,
                 ciclo: ciclo.length + 1,
                 pago: !ciclo.length ? pago : 0,
             });
             const route = await this.routeRepository.save(routeCreate);
+            const sellersEntity = [];
+            for (let i = 0, t = sellers.length; i < t; i++) {
+                const sellerId = sellers[i];
+                const seller = await this.sellersService.findOne(sellerId);
+                const routeSellerCreate = await this.routeSellerRepository.create({
+                    seller,
+                    order: i + 1,
+                    route,
+                });
+                const routeSeller = await this.routeSellerRepository.save(routeSellerCreate);
+                sellersEntity.push(routeSeller);
+            }
+            await this.routeRepository.save(Object.assign(Object.assign({}, route), { sellers: sellersEntity }));
             return route;
         }
         catch (error) {
@@ -85,12 +93,17 @@ let RoutesService = RoutesService_1 = class RoutesService {
                         logistica: true,
                     },
                     sellers: {
-                        references: true,
-                        referencePhones: true,
+                        seller: {
+                            references: true,
+                            referencePhones: true,
+                        },
                     },
                 },
                 order: {
                     id: 'DESC',
+                    sellers: {
+                        order: 'ASC',
+                    },
                 },
             });
             return routes;
@@ -152,30 +165,36 @@ let RoutesService = RoutesService_1 = class RoutesService {
         return route;
     }
     async update(id, updateRouteDto) {
-        const { ciclo } = await this.findOne(id);
-        const user = await this.usersService.findOne(updateRouteDto.userId);
-        const car = await this.carsService.findOne(updateRouteDto.carId);
-        const sellersEntity = [];
-        for (let i = 0, t = updateRouteDto.sellers.length; i < t; i++) {
-            const sellerId = updateRouteDto.sellers[i];
-            const seller = await this.sellersService.findOne(sellerId);
-            sellersEntity.push(seller);
-        }
-        if (!sellersEntity.length) {
+        if (!updateRouteDto.sellers.length) {
             throw new common_1.BadGatewayException('Sellers no identificados');
         }
+        const routeCurrent = await this.findOne(id);
+        const user = await this.usersService.findOne(updateRouteDto.userId);
+        const car = await this.carsService.findOne(updateRouteDto.carId);
         try {
             const route = await this.routeRepository.preload({
                 id,
                 date: updateRouteDto.date,
                 notes: updateRouteDto.notes,
-                pago: Number(ciclo) === 1 ? updateRouteDto.pago : 0,
+                pago: Number(routeCurrent.ciclo) === 1 ? updateRouteDto.pago : 0,
                 user,
-                sellers: sellersEntity,
                 car,
             });
-            const routeUpgrade = await this.routeRepository.save(route);
-            return routeUpgrade;
+            const routeUpdated = await this.routeRepository.save(route);
+            await this.routeSellerRepository.remove(routeCurrent.sellers);
+            const sellersEntity = [];
+            for (let i = 0, t = updateRouteDto.sellers.length; i < t; i++) {
+                const sellerId = updateRouteDto.sellers[i];
+                const seller = await this.sellersService.findOne(sellerId);
+                const routeSellerCreate = await this.routeSellerRepository.create({
+                    seller,
+                    order: i + 1,
+                    route,
+                });
+                const routeSeller = await this.routeSellerRepository.save(routeSellerCreate);
+                sellersEntity.push(routeSeller);
+            }
+            return await this.routeRepository.save(Object.assign(Object.assign({}, routeUpdated), { sellers: sellersEntity }));
         }
         catch (error) {
             this.commonService.handleExceptions({
@@ -202,8 +221,10 @@ let RoutesService = RoutesService_1 = class RoutesService {
 };
 RoutesService = RoutesService_1 = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(route_entity_1.Route)),
+    __param(0, (0, typeorm_1.InjectRepository)(entities_1.Route)),
+    __param(1, (0, typeorm_1.InjectRepository)(entities_1.RouteSeller)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository,
         common_service_1.CommonService,
         users_service_1.UsersService,
         sellers_service_1.SellersService,

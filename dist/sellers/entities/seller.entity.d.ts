@@ -1,3 +1,4 @@
+import { RouteSeller } from 'src/routes/entities';
 import { ReferencePhone } from './reference-phone.entity';
 import { Reference } from './reference.entity';
 export declare class Seller {
@@ -21,4 +22,5 @@ export declare class Seller {
     references: Reference[];
     parent: Seller;
     sellers: Seller[];
+    routeSeller: RouteSeller[];
 }

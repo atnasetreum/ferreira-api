@@ -7,10 +7,11 @@ import { CommonModule } from 'src/common/common.module';
 import { UsersModule } from 'src/users/users.module';
 import { SellersModule } from 'src/sellers/sellers.module';
 import { CarsModule } from 'src/cars/cars.module';
+import { RouteSeller } from './entities';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Route]),
+    TypeOrmModule.forFeature([Route, RouteSeller]),
     CommonModule,
     UsersModule,
     SellersModule,

@@ -1,6 +1,6 @@
 import { Car } from 'src/cars/entities/car.entity';
-import { Seller } from 'src/sellers/entities';
 import { User } from '../../users/entities/user.entity';
+import { RouteSeller } from './route-seller.entity';
 export declare class Route {
     id: number;
     date: Date;
@@ -12,5 +12,5 @@ export declare class Route {
     updatedAt: number;
     user: User;
     car: Car;
-    sellers: Seller[];
+    sellers: RouteSeller[];
 }

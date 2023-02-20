@@ -1,3 +1,4 @@
+import { RouteSeller } from 'src/routes/entities';
 import {
   Entity,
   Column,
@@ -77,4 +78,7 @@ export class Seller {
 
   @OneToMany(() => Seller, (seller) => seller.parent)
   sellers: Seller[];
+
+  @OneToMany(() => RouteSeller, (routeSeller) => routeSeller.seller)
+  routeSeller: RouteSeller[];
 }

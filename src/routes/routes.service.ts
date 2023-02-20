@@ -16,7 +16,7 @@ import {
   QueryRouteDto,
   UpdateRouteDto,
 } from './dto';
-import { Route } from './entities/route.entity';
+import { Route, RouteSeller } from './entities';
 
 @Injectable()
 export class RoutesService {
@@ -25,6 +25,8 @@ export class RoutesService {
   constructor(
     @InjectRepository(Route)
     private readonly routeRepository: Repository<Route>,
+    @InjectRepository(RouteSeller)
+    private readonly routeSellerRepository: Repository<RouteSeller>,
     private readonly commonService: CommonService,
     private readonly usersService: UsersService,
     private readonly sellersService: SellersService,
@@ -34,20 +36,12 @@ export class RoutesService {
   async create(createRouteDto: CreateRouteDto) {
     const { date, userId, sellers, notes, carId, pago } = createRouteDto;
 
-    const user = await this.usersService.findOne(userId);
-    const car = await this.carsService.findOne(carId);
-
-    const sellersEntity = [];
-
-    for (let i = 0, t = sellers.length; i < t; i++) {
-      const sellerId = sellers[i];
-      const seller = await this.sellersService.findOne(sellerId);
-      sellersEntity.push(seller);
-    }
-
-    if (!sellersEntity.length) {
+    if (!sellers.length) {
       throw new BadGatewayException('Sellers no identificados');
     }
+
+    const user = await this.usersService.findOne(userId);
+    const car = await this.carsService.findOne(carId);
 
     const ciclo = await this.routeRepository.find({
       where: {
@@ -62,13 +56,34 @@ export class RoutesService {
       const routeCreate = await this.routeRepository.create({
         date,
         user,
-        sellers: sellersEntity,
+        sellers: [],
         car,
         notes,
         ciclo: ciclo.length + 1,
         pago: !ciclo.length ? pago : 0,
       });
       const route = await this.routeRepository.save(routeCreate);
+
+      const sellersEntity = [];
+
+      for (let i = 0, t = sellers.length; i < t; i++) {
+        const sellerId = sellers[i];
+        const seller = await this.sellersService.findOne(sellerId);
+
+        const routeSellerCreate = await this.routeSellerRepository.create({
+          seller,
+          order: i + 1,
+          route,
+        });
+        const routeSeller = await this.routeSellerRepository.save(
+          routeSellerCreate,
+        );
+
+        sellersEntity.push(routeSeller);
+      }
+
+      await this.routeRepository.save({ ...route, sellers: sellersEntity });
+
       return route;
     } catch (error) {
       this.commonService.handleExceptions({
@@ -98,13 +113,17 @@ export class RoutesService {
             logistica: true,
           },
           sellers: {
-            references: true,
-            referencePhones: true,
+            seller: {
+              references: true,
+              referencePhones: true,
+            },
           },
         },
-
         order: {
           id: 'DESC',
+          sellers: {
+            order: 'ASC',
+          },
         },
       });
       return routes;
@@ -174,34 +193,51 @@ export class RoutesService {
   }
 
   async update(id: number, updateRouteDto: UpdateRouteDto) {
-    const { ciclo } = await this.findOne(id);
-    const user = await this.usersService.findOne(updateRouteDto.userId);
-    const car = await this.carsService.findOne(updateRouteDto.carId);
-
-    const sellersEntity = [];
-
-    for (let i = 0, t = updateRouteDto.sellers.length; i < t; i++) {
-      const sellerId = updateRouteDto.sellers[i];
-      const seller = await this.sellersService.findOne(sellerId);
-      sellersEntity.push(seller);
-    }
-
-    if (!sellersEntity.length) {
+    if (!updateRouteDto.sellers.length) {
       throw new BadGatewayException('Sellers no identificados');
     }
+
+    const routeCurrent = await this.findOne(id);
+    const user = await this.usersService.findOne(updateRouteDto.userId);
+    const car = await this.carsService.findOne(updateRouteDto.carId);
 
     try {
       const route = await this.routeRepository.preload({
         id,
         date: updateRouteDto.date,
         notes: updateRouteDto.notes,
-        pago: Number(ciclo) === 1 ? updateRouteDto.pago : 0,
+        pago: Number(routeCurrent.ciclo) === 1 ? updateRouteDto.pago : 0,
         user,
-        sellers: sellersEntity,
         car,
       });
-      const routeUpgrade = await this.routeRepository.save(route);
-      return routeUpgrade;
+      const routeUpdated = await this.routeRepository.save(route);
+
+      await this.routeSellerRepository.remove(routeCurrent.sellers);
+
+      const sellersEntity = [];
+
+      for (let i = 0, t = updateRouteDto.sellers.length; i < t; i++) {
+        const sellerId = updateRouteDto.sellers[i];
+        const seller = await this.sellersService.findOne(sellerId);
+
+        const routeSellerCreate = await this.routeSellerRepository.create({
+          seller,
+          order: i + 1,
+          route,
+        });
+        const routeSeller = await this.routeSellerRepository.save(
+          routeSellerCreate,
+        );
+
+        sellersEntity.push(routeSeller);
+      }
+
+      //return routeUpdated;
+
+      return await this.routeRepository.save({
+        ...routeUpdated,
+        sellers: sellersEntity,
+      });
     } catch (error) {
       this.commonService.handleExceptions({
         ref: 'update',
