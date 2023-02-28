@@ -19,7 +19,11 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://transportesferreira.com'],
+    origin: [
+      'http://localhost:3000',
+      'https://transportesferreira.com',
+      'https://ferreira-ui.vercel.app',
+    ],
   });
 
   await app.listen(process.env.PORT);
