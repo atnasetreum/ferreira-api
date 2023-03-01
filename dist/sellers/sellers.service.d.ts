@@ -15,6 +15,7 @@ export declare class SellersService {
     findAll(query: QuerySellerDto): Promise<Seller[]>;
     findAllNoParent(): Promise<Seller[]>;
     findAllBasic(): Promise<Seller[]>;
+    findOneByName(nombre: string): Promise<Seller>;
     findOne(id: number): Promise<Seller>;
     updatePhones(id: number, updateSellerDto: UpdateSellerDto, seller: Seller): Promise<void>;
     updateReferences(id: number, updateSellerDto: UpdateSellerDto, seller: Seller, images: Array<Express.Multer.File>): Promise<void>;

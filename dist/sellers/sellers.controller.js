@@ -42,6 +42,9 @@ let SellersController = class SellersController {
     findAllBasic() {
         return this.sellersService.findAllBasic();
     }
+    findOneByName(name) {
+        return this.sellersService.findOneByName(name);
+    }
     findOne(id) {
         return this.sellersService.findOne(+id);
     }
@@ -96,6 +99,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], SellersController.prototype, "findAllBasic", null);
+__decorate([
+    (0, common_1.Get)('findOneByName'),
+    __param(0, (0, common_1.Query)('name')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], SellersController.prototype, "findOneByName", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),

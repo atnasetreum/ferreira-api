@@ -8,6 +8,7 @@ export declare class SellersController {
     findAll(query: QuerySellerDto): Promise<import("./entities").Seller[]>;
     findAllNoParent(): Promise<import("./entities").Seller[]>;
     findAllBasic(): Promise<import("./entities").Seller[]>;
+    findOneByName(name: string): Promise<import("./entities").Seller>;
     findOne(id: string): Promise<import("./entities").Seller>;
     update(id: string, updateSellerDto: UpdateSellerDto, images: Array<Express.Multer.File>): Promise<import("./entities").Seller>;
     remove(id: string): Promise<import("./entities").Seller>;

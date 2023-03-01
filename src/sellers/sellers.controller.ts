@@ -72,6 +72,11 @@ export class SellersController {
     return this.sellersService.findAllBasic();
   }
 
+  @Get('findOneByName')
+  findOneByName(@Query('name') name: string) {
+    return this.sellersService.findOneByName(name);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.sellersService.findOne(+id);

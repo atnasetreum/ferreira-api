@@ -113,6 +113,30 @@ export class SellersService {
           ...(query?.estado && { estado: query.estado }),
           ...(query?.municipio && { municipio: query.municipio }),
           ...(query?.ciudad && { ciudad: query.ciudad }),
+          ...(query?.referencia && {
+            references: {
+              description: Raw(
+                (alias) =>
+                  `LOWER(${alias}) Like '%${query.referencia.toLowerCase()}%'`,
+              ),
+            },
+          }),
+          ...(query?.telefono && {
+            referencePhones: {
+              phone: Raw(
+                (alias) =>
+                  `LOWER(${alias}) Like '%${query.telefono.toLowerCase()}%'`,
+              ),
+            },
+          }),
+          ...(query?.telefonoNombre && {
+            referencePhones: {
+              name: Raw(
+                (alias) =>
+                  `LOWER(${alias}) Like '%${query.telefonoNombre.toLowerCase()}%'`,
+              ),
+            },
+          }),
         },
         relations: ['references', 'referencePhones', 'sellers', 'parent'],
         order: {
@@ -174,6 +198,27 @@ export class SellersService {
     } catch (error) {
       this.commonService.handleExceptions({
         ref: 'findAllBasic',
+        error,
+        logger: this.logger,
+      });
+    }
+  }
+
+  async findOneByName(nombre: string) {
+    try {
+      const seller = await this.sellerRepository.findOne({
+        where: {
+          nombre: Raw((alias) => `UPPER(${alias}) = '${nombre.toUpperCase()}'`),
+          isActive: true,
+        },
+      });
+
+      console.log(seller);
+
+      return seller;
+    } catch (error) {
+      this.commonService.handleExceptions({
+        ref: 'findOneByName',
         error,
         logger: this.logger,
       });

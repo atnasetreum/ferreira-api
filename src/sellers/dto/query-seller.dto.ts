@@ -28,4 +28,16 @@ export class QuerySellerDto {
   @IsString()
   @IsOptional()
   readonly ciudad: string;
+
+  @IsString()
+  @IsOptional()
+  readonly referencia: string;
+
+  @IsString()
+  @IsOptional()
+  readonly telefono: string;
+
+  @IsString()
+  @IsOptional()
+  readonly telefonoNombre: string;
 }

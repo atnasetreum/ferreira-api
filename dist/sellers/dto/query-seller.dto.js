@@ -48,5 +48,20 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], QuerySellerDto.prototype, "ciudad", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], QuerySellerDto.prototype, "referencia", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], QuerySellerDto.prototype, "telefono", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], QuerySellerDto.prototype, "telefonoNombre", void 0);
 exports.QuerySellerDto = QuerySellerDto;
 //# sourceMappingURL=query-seller.dto.js.map

@@ -6,4 +6,7 @@ export declare class QuerySellerDto {
     readonly estado: string;
     readonly municipio: string;
     readonly ciudad: string;
+    readonly referencia: string;
+    readonly telefono: string;
+    readonly telefonoNombre: string;
 }

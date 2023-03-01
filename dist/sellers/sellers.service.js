@@ -84,13 +84,25 @@ let SellersService = SellersService_1 = class SellersService {
     async findAll(query) {
         try {
             const sellers = await this.sellerRepository.find({
-                where: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({ isActive: true }, ((query === null || query === void 0 ? void 0 : query.id) && { id: Number(query.id) })), ((query === null || query === void 0 ? void 0 : query.uuid) && {
+                where: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({ isActive: true }, ((query === null || query === void 0 ? void 0 : query.id) && { id: Number(query.id) })), ((query === null || query === void 0 ? void 0 : query.uuid) && {
                     uuid: (0, typeorm_2.Raw)((alias) => `LOWER(${alias}) Like '%${query.uuid.toLowerCase()}%'`),
                 })), ((query === null || query === void 0 ? void 0 : query.nombre) && {
                     nombre: (0, typeorm_2.Raw)((alias) => `LOWER(${alias}) Like '%${query.nombre.toLowerCase()}%'`),
                 })), ((query === null || query === void 0 ? void 0 : query.personaQueAtiende) && {
                     personaQueAtiende: (0, typeorm_2.Raw)((alias) => `LOWER(${alias}) Like '%${query.personaQueAtiende.toLowerCase()}%'`),
-                })), ((query === null || query === void 0 ? void 0 : query.estado) && { estado: query.estado })), ((query === null || query === void 0 ? void 0 : query.municipio) && { municipio: query.municipio })), ((query === null || query === void 0 ? void 0 : query.ciudad) && { ciudad: query.ciudad })),
+                })), ((query === null || query === void 0 ? void 0 : query.estado) && { estado: query.estado })), ((query === null || query === void 0 ? void 0 : query.municipio) && { municipio: query.municipio })), ((query === null || query === void 0 ? void 0 : query.ciudad) && { ciudad: query.ciudad })), ((query === null || query === void 0 ? void 0 : query.referencia) && {
+                    references: {
+                        description: (0, typeorm_2.Raw)((alias) => `LOWER(${alias}) Like '%${query.referencia.toLowerCase()}%'`),
+                    },
+                })), ((query === null || query === void 0 ? void 0 : query.telefono) && {
+                    referencePhones: {
+                        phone: (0, typeorm_2.Raw)((alias) => `LOWER(${alias}) Like '%${query.telefono.toLowerCase()}%'`),
+                    },
+                })), ((query === null || query === void 0 ? void 0 : query.telefonoNombre) && {
+                    referencePhones: {
+                        name: (0, typeorm_2.Raw)((alias) => `LOWER(${alias}) Like '%${query.telefonoNombre.toLowerCase()}%'`),
+                    },
+                })),
                 relations: ['references', 'referencePhones', 'sellers', 'parent'],
                 order: {
                     id: 'DESC',
@@ -152,6 +164,25 @@ let SellersService = SellersService_1 = class SellersService {
         catch (error) {
             this.commonService.handleExceptions({
                 ref: 'findAllBasic',
+                error,
+                logger: this.logger,
+            });
+        }
+    }
+    async findOneByName(nombre) {
+        try {
+            const seller = await this.sellerRepository.findOne({
+                where: {
+                    nombre: (0, typeorm_2.Raw)((alias) => `UPPER(${alias}) = '${nombre.toUpperCase()}'`),
+                    isActive: true,
+                },
+            });
+            console.log(seller);
+            return seller;
+        }
+        catch (error) {
+            this.commonService.handleExceptions({
+                ref: 'findOneByName',
                 error,
                 logger: this.logger,
             });
