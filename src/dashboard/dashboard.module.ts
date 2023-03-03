@@ -3,9 +3,10 @@ import { DashboardService } from './dashboard.service';
 import { DashboardController } from './dashboard.controller';
 import { LogisticsModule } from 'src/logistics/logistics.module';
 import { CarsModule } from 'src/cars/cars.module';
+import { RoutesModule } from 'src/routes/routes.module';
 
 @Module({
-  imports: [LogisticsModule, CarsModule],
+  imports: [LogisticsModule, CarsModule, RoutesModule],
   controllers: [DashboardController],
   providers: [DashboardService],
 })

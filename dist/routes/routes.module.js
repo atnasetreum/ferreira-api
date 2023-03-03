@@ -30,6 +30,7 @@ RoutesModule = __decorate([
         ],
         controllers: [routes_controller_1.RoutesController],
         providers: [routes_service_1.RoutesService],
+        exports: [typeorm_1.TypeOrmModule, routes_service_1.RoutesService],
     })
 ], RoutesModule);
 exports.RoutesModule = RoutesModule;

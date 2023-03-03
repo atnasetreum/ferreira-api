@@ -9,4 +9,9 @@ export class DashboardController {
   carsByLogistics() {
     return this.dashboardService.carsByLogistics();
   }
+
+  @Get('/totalByLogistics')
+  totalByLogistics() {
+    return this.dashboardService.totalByLogistics();
+  }
 }

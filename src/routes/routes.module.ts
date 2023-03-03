@@ -19,5 +19,6 @@ import { RouteSeller } from './entities';
   ],
   controllers: [RoutesController],
   providers: [RoutesService],
+  exports: [TypeOrmModule, RoutesService],
 })
 export class RoutesModule {}
