@@ -59,4 +59,50 @@ export class DashboardService {
 
     return logisticas;
   }
+
+  async rutasByLogistics() {
+    const logistics = await this.logisticsService.findAll();
+
+    const rows = await this.routeRepository
+      .createQueryBuilder('routes')
+      .select(['logistics.name', 'routes.pago'])
+      .innerJoinAndSelect('routes.car', 'car')
+      .innerJoinAndSelect('car.logistica', 'logistics')
+      .where('routes.pago > 0')
+      .execute();
+
+    const getTotal = (name) => {
+      return rows.filter((row) => row.logistics_name === name).length;
+    };
+
+    const logisticas = logistics.map((logistic) => ({
+      name: logistic.name,
+      y: getTotal(logistic.name),
+    }));
+
+    return logisticas;
+  }
+
+  async rutasByDrivers() {
+    const rows = await this.routeRepository
+      .createQueryBuilder('routes')
+      .select(['users.name'])
+      .innerJoinAndSelect('routes.user', 'users')
+      .execute();
+
+    const getTotal = (name) => {
+      return rows.filter((row) => row.users_name === name).length;
+    };
+
+    const names = new Set();
+
+    rows.forEach((element) => {
+      names.add(element.users_name);
+    });
+
+    return {
+      categories: [...names],
+      data: [...names].map((userName) => getTotal(userName)),
+    };
+  }
 }

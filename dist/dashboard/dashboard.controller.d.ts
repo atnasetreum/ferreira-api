@@ -7,4 +7,12 @@ export declare class DashboardController {
         name: string;
         y: any;
     }[]>;
+    rutasByLogistics(): Promise<{
+        name: string;
+        y: any;
+    }[]>;
+    rutasByDrivers(): Promise<{
+        categories: unknown[];
+        data: any[];
+    }>;
 }

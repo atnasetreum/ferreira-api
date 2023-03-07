@@ -14,4 +14,14 @@ export class DashboardController {
   totalByLogistics() {
     return this.dashboardService.totalByLogistics();
   }
+
+  @Get('/rutasByLogistics')
+  rutasByLogistics() {
+    return this.dashboardService.rutasByLogistics();
+  }
+
+  @Get('/rutasByDrivers')
+  rutasByDrivers() {
+    return this.dashboardService.rutasByDrivers();
+  }
 }
