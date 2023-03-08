@@ -19,14 +19,17 @@ const typeorm_1 = require("@nestjs/typeorm");
 const cars_service_1 = require("../cars/cars.service");
 const logistics_service_1 = require("../logistics/logistics.service");
 const entities_1 = require("../routes/entities");
-const routes_service_1 = require("../routes/routes.service");
+const entities_2 = require("../sellers/entities");
+const user_type_entity_1 = require("../user-types/entities/user-type.entity");
+const user_entity_1 = require("../users/entities/user.entity");
 const typeorm_2 = require("typeorm");
 let DashboardService = DashboardService_1 = class DashboardService {
-    constructor(logisticsService, carsService, routesService, routeRepository) {
+    constructor(logisticsService, carsService, routeRepository, sellerRepository, userRepository) {
         this.logisticsService = logisticsService;
         this.carsService = carsService;
-        this.routesService = routesService;
         this.routeRepository = routeRepository;
+        this.sellerRepository = sellerRepository;
+        this.userRepository = userRepository;
         this.logger = new common_1.Logger(DashboardService_1.name);
     }
     async carsByLogistics() {
@@ -56,10 +59,10 @@ let DashboardService = DashboardService_1 = class DashboardService {
                 .filter((row) => row.logistics_name === name)
                 .reduce((a, b) => Number(a) + Number(b.routes_pago), 0);
         };
-        const logisticas = logistics.map((logistic) => ({
-            name: logistic.name,
-            y: getTotal(logistic.name),
-        }));
+        const logisticas = logistics.map((logistic) => [
+            logistic.name,
+            getTotal(logistic.name),
+        ]);
         return logisticas;
     }
     async rutasByLogistics() {
@@ -98,13 +101,51 @@ let DashboardService = DashboardService_1 = class DashboardService {
             data: [...names].map((userName) => getTotal(userName)),
         };
     }
+    async stateCountDashboard() {
+        const routes = await this.routeRepository.find({ relations: ['sellers'] });
+        const sellers = await this.sellerRepository.find({});
+        const numbers = routes.map((route) => route.sellers.length);
+        const average = (arr) => arr.reduce((p, c) => p + c, 0) / arr.length;
+        const drivers = await this.userRepository.find({
+            where: {
+                userType: {
+                    name: user_type_entity_1.EUserType.DRIVER,
+                },
+            },
+        });
+        const formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+        });
+        return {
+            totales: {
+                title: 'Ingresos totales',
+                total: formatter.format(routes.reduce((a, b) => Number(a) + Number(b.pago), 0)),
+            },
+            promedioRuta: {
+                title: 'Promedio de puntos por ruta',
+                total: Math.round(average(numbers)),
+            },
+            sellers: {
+                title: 'Sellers registrados',
+                total: sellers.length,
+            },
+            drivers: {
+                title: 'Drivers registrados',
+                total: drivers.length,
+            },
+        };
+    }
 };
 DashboardService = DashboardService_1 = __decorate([
     (0, common_1.Injectable)(),
-    __param(3, (0, typeorm_1.InjectRepository)(entities_1.Route)),
+    __param(2, (0, typeorm_1.InjectRepository)(entities_1.Route)),
+    __param(3, (0, typeorm_1.InjectRepository)(entities_2.Seller)),
+    __param(4, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
     __metadata("design:paramtypes", [logistics_service_1.LogisticsService,
         cars_service_1.CarsService,
-        routes_service_1.RoutesService,
+        typeorm_2.Repository,
+        typeorm_2.Repository,
         typeorm_2.Repository])
 ], DashboardService);
 exports.DashboardService = DashboardService;

@@ -28,6 +28,9 @@ let DashboardController = class DashboardController {
     rutasByDrivers() {
         return this.dashboardService.rutasByDrivers();
     }
+    stateCountDashboard() {
+        return this.dashboardService.stateCountDashboard();
+    }
 };
 __decorate([
     (0, common_1.Get)('/carsByLogistics'),
@@ -53,6 +56,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], DashboardController.prototype, "rutasByDrivers", null);
+__decorate([
+    (0, common_1.Get)('/stateCountDashboard'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], DashboardController.prototype, "stateCountDashboard", null);
 DashboardController = __decorate([
     (0, common_1.Controller)('dashboard'),
     __metadata("design:paramtypes", [dashboard_service_1.DashboardService])

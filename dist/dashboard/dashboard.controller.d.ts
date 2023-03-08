@@ -3,10 +3,7 @@ export declare class DashboardController {
     private readonly dashboardService;
     constructor(dashboardService: DashboardService);
     carsByLogistics(): Promise<any[]>;
-    totalByLogistics(): Promise<{
-        name: string;
-        y: any;
-    }[]>;
+    totalByLogistics(): Promise<any[][]>;
     rutasByLogistics(): Promise<{
         name: string;
         y: any;
@@ -14,5 +11,23 @@ export declare class DashboardController {
     rutasByDrivers(): Promise<{
         categories: unknown[];
         data: any[];
+    }>;
+    stateCountDashboard(): Promise<{
+        totales: {
+            title: string;
+            total: string;
+        };
+        promedioRuta: {
+            title: string;
+            total: number;
+        };
+        sellers: {
+            title: string;
+            total: number;
+        };
+        drivers: {
+            title: string;
+            total: number;
+        };
     }>;
 }

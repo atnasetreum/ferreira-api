@@ -13,11 +13,19 @@ const dashboard_controller_1 = require("./dashboard.controller");
 const logistics_module_1 = require("../logistics/logistics.module");
 const cars_module_1 = require("../cars/cars.module");
 const routes_module_1 = require("../routes/routes.module");
+const sellers_module_1 = require("../sellers/sellers.module");
+const users_module_1 = require("../users/users.module");
 let DashboardModule = class DashboardModule {
 };
 DashboardModule = __decorate([
     (0, common_1.Module)({
-        imports: [logistics_module_1.LogisticsModule, cars_module_1.CarsModule, routes_module_1.RoutesModule],
+        imports: [
+            logistics_module_1.LogisticsModule,
+            cars_module_1.CarsModule,
+            routes_module_1.RoutesModule,
+            sellers_module_1.SellersModule,
+            users_module_1.UsersModule,
+        ],
         controllers: [dashboard_controller_1.DashboardController],
         providers: [dashboard_service_1.DashboardService],
     })

@@ -3,7 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CarsService } from 'src/cars/cars.service';
 import { LogisticsService } from 'src/logistics/logistics.service';
 import { Route } from 'src/routes/entities';
-import { RoutesService } from 'src/routes/routes.service';
+import { Seller } from 'src/sellers/entities';
+import { EUserType } from 'src/user-types/entities/user-type.entity';
+import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -13,9 +15,12 @@ export class DashboardService {
   constructor(
     private readonly logisticsService: LogisticsService,
     private readonly carsService: CarsService,
-    private readonly routesService: RoutesService,
     @InjectRepository(Route)
     private readonly routeRepository: Repository<Route>,
+    @InjectRepository(Seller)
+    private readonly sellerRepository: Repository<Seller>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   async carsByLogistics() {
@@ -52,10 +57,10 @@ export class DashboardService {
         .reduce((a, b) => Number(a) + Number(b.routes_pago), 0);
     };
 
-    const logisticas = logistics.map((logistic) => ({
-      name: logistic.name,
-      y: getTotal(logistic.name),
-    }));
+    const logisticas = logistics.map((logistic) => [
+      logistic.name,
+      getTotal(logistic.name),
+    ]);
 
     return logisticas;
   }
@@ -103,6 +108,49 @@ export class DashboardService {
     return {
       categories: [...names],
       data: [...names].map((userName) => getTotal(userName)),
+    };
+  }
+
+  async stateCountDashboard() {
+    const routes = await this.routeRepository.find({ relations: ['sellers'] });
+    const sellers = await this.sellerRepository.find({});
+
+    const numbers = routes.map((route) => route.sellers.length);
+
+    const average = (arr) => arr.reduce((p, c) => p + c, 0) / arr.length;
+
+    const drivers = await this.userRepository.find({
+      where: {
+        userType: {
+          name: EUserType.DRIVER,
+        },
+      },
+    });
+
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    });
+
+    return {
+      totales: {
+        title: 'Ingresos totales',
+        total: formatter.format(
+          routes.reduce((a, b) => Number(a) + Number(b.pago), 0),
+        ),
+      },
+      promedioRuta: {
+        title: 'Promedio de puntos por ruta',
+        total: Math.round(average(numbers)),
+      },
+      sellers: {
+        title: 'Sellers registrados',
+        total: sellers.length,
+      },
+      drivers: {
+        title: 'Drivers registrados',
+        total: drivers.length,
+      },
     };
   }
 }

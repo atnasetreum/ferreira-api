@@ -24,4 +24,9 @@ export class DashboardController {
   rutasByDrivers() {
     return this.dashboardService.rutasByDrivers();
   }
+
+  @Get('/stateCountDashboard')
+  stateCountDashboard() {
+    return this.dashboardService.stateCountDashboard();
+  }
 }
