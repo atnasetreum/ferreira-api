@@ -4,7 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { EnvConfiguration, JoiValidationSchema } from './config';
 import { UsersModule } from './users/users.module';
 import { UserTypesModule } from './user-types/user-types.module';
-import { DriversModule } from './drivers/drivers.module';
 import { SellersModule } from './sellers/sellers.module';
 import { RoutesModule } from './routes/routes.module';
 import { AuthModule } from './auth/auth.module';
@@ -38,7 +37,6 @@ import { DashboardModule } from './dashboard/dashboard.module';
     }),
     UsersModule,
     UserTypesModule,
-    DriversModule,
     SellersModule,
     RoutesModule,
     AuthModule,

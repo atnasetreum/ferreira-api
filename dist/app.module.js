@@ -13,7 +13,6 @@ const typeorm_1 = require("@nestjs/typeorm");
 const config_2 = require("./config");
 const users_module_1 = require("./users/users.module");
 const user_types_module_1 = require("./user-types/user-types.module");
-const drivers_module_1 = require("./drivers/drivers.module");
 const sellers_module_1 = require("./sellers/sellers.module");
 const routes_module_1 = require("./routes/routes.module");
 const auth_module_1 = require("./auth/auth.module");
@@ -49,7 +48,6 @@ AppModule = __decorate([
             }),
             users_module_1.UsersModule,
             user_types_module_1.UserTypesModule,
-            drivers_module_1.DriversModule,
             sellers_module_1.SellersModule,
             routes_module_1.RoutesModule,
             auth_module_1.AuthModule,
