@@ -103,6 +103,7 @@ let DashboardService = DashboardService_1 = class DashboardService {
             .createQueryBuilder()
             .select(`TO_CHAR(date::DATE, 'dd/mm/yyyy') AS date`)
             .groupBy('date')
+            .orderBy('date', 'DESC')
             .limit(15)
             .execute();
         const categories = days
