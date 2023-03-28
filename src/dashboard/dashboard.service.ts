@@ -88,6 +88,70 @@ export class DashboardService {
     return logisticas;
   }
 
+  async rutasByLogisticsTimeLine() {
+    const logistics = await this.logisticsService.findAll();
+    const cars = await this.carsService.findAll();
+
+    const getCountRoutesByLogistics = async (dateLabel, arrayIds) => {
+      const date = dateLabel.split('/').reverse().join('-');
+
+      const count = await this.routeRepository
+        .createQueryBuilder()
+        .select(`COUNT("date") as total `)
+        .where(`"carId" IN ( ${arrayIds.join(', ')} ) `)
+        .andWhere(`"date"::DATE = '${date}'`)
+        .andWhere(`ciclo = 1`)
+        .groupBy('date')
+        .execute();
+
+      const value = count.length ? Number(count[0].total) : 0;
+
+      return value;
+    };
+
+    const days = await this.routeRepository
+      .createQueryBuilder()
+      .select(`TO_CHAR(date::DATE, 'dd/mm/yyyy') AS date`)
+      .groupBy('date')
+      .limit(15)
+      .execute();
+
+    const categories = days
+      .map((day) => day.date)
+      .sort(function (a, b) {
+        const aa = a.split('/').reverse().join(),
+          bb = b.split('/').reverse().join();
+        return aa < bb ? -1 : aa > bb ? 1 : 0;
+      });
+
+    const series = [];
+
+    for (let i = 0, t = logistics.length; i < t; i++) {
+      const logistic = logistics[i];
+      const carsByLogistics = cars.filter(
+        (car) => car.logistica.id === logistic.id,
+      );
+
+      const carsIds = carsByLogistics.map((car) => car.id);
+
+      const data = [];
+      for (let i = 0, t = categories.length; i < t; i++) {
+        const date = categories[i];
+        data.push(await getCountRoutesByLogistics(date, carsIds));
+      }
+
+      series.push({
+        name: logistic.name,
+        data,
+      });
+    }
+
+    return {
+      categories,
+      series,
+    };
+  }
+
   async rutasByDrivers() {
     const rows = await this.routeRepository
       .createQueryBuilder('routes')

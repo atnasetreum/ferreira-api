@@ -8,6 +8,10 @@ export declare class DashboardController {
         name: string;
         y: any;
     }[]>;
+    rutasByLogisticsTimeLine(): Promise<{
+        categories: any;
+        series: any[];
+    }>;
     rutasByDrivers(): Promise<{
         categories: unknown[];
         data: any[];

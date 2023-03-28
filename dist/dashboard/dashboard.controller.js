@@ -25,6 +25,9 @@ let DashboardController = class DashboardController {
     rutasByLogistics() {
         return this.dashboardService.rutasByLogistics();
     }
+    rutasByLogisticsTimeLine() {
+        return this.dashboardService.rutasByLogisticsTimeLine();
+    }
     rutasByDrivers() {
         return this.dashboardService.rutasByDrivers();
     }
@@ -50,6 +53,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], DashboardController.prototype, "rutasByLogistics", null);
+__decorate([
+    (0, common_1.Get)('/rutasByLogisticsTimeLine'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], DashboardController.prototype, "rutasByLogisticsTimeLine", null);
 __decorate([
     (0, common_1.Get)('/rutasByDrivers'),
     __metadata("design:type", Function),

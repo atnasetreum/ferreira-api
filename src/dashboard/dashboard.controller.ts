@@ -20,6 +20,11 @@ export class DashboardController {
     return this.dashboardService.rutasByLogistics();
   }
 
+  @Get('/rutasByLogisticsTimeLine')
+  rutasByLogisticsTimeLine() {
+    return this.dashboardService.rutasByLogisticsTimeLine();
+  }
+
   @Get('/rutasByDrivers')
   rutasByDrivers() {
     return this.dashboardService.rutasByDrivers();

@@ -18,6 +18,10 @@ export declare class DashboardService {
         name: string;
         y: any;
     }[]>;
+    rutasByLogisticsTimeLine(): Promise<{
+        categories: any;
+        series: any[];
+    }>;
     rutasByDrivers(): Promise<{
         categories: unknown[];
         data: any[];
