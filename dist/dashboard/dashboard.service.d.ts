@@ -14,8 +14,8 @@ export declare class DashboardService {
     constructor(logisticsService: LogisticsService, carsService: CarsService, routeRepository: Repository<Route>, sellerRepository: Repository<Seller>, userRepository: Repository<User>);
     carsByLogistics(): Promise<any[]>;
     totalByLogistics({ startDate, endDate, }: {
-        startDate: Date;
-        endDate: Date;
+        startDate: string;
+        endDate: string;
     }): Promise<any[][]>;
     rutasByLogistics({ startDate, endDate, }: {
         startDate: Date;

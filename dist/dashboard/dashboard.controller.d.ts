@@ -3,7 +3,7 @@ export declare class DashboardController {
     private readonly dashboardService;
     constructor(dashboardService: DashboardService);
     carsByLogistics(): Promise<any[]>;
-    totalByLogistics(startDate: Date, endDate: Date): Promise<any[][]>;
+    totalByLogistics(startDate: string, endDate: string): Promise<any[][]>;
     rutasByLogistics(startDate: Date, endDate: Date): Promise<{
         name: string;
         y: any;

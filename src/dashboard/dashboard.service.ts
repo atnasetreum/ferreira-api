@@ -44,8 +44,8 @@ export class DashboardService {
     startDate,
     endDate,
   }: {
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
   }) {
     const logistics = await this.logisticsService.findAll();
 

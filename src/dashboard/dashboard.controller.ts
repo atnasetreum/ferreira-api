@@ -12,8 +12,8 @@ export class DashboardController {
 
   @Get('/totalByLogistics')
   totalByLogistics(
-    @Query('startDate') startDate: Date,
-    @Query('endDate') endDate: Date,
+    @Query('startDate') startDate: string,
+    @Query('endDate') endDate: string,
   ) {
     return this.dashboardService.totalByLogistics({
       startDate,
