@@ -13,8 +13,14 @@ export declare class DashboardService {
     private readonly logger;
     constructor(logisticsService: LogisticsService, carsService: CarsService, routeRepository: Repository<Route>, sellerRepository: Repository<Seller>, userRepository: Repository<User>);
     carsByLogistics(): Promise<any[]>;
-    totalByLogistics(): Promise<any[][]>;
-    rutasByLogistics(): Promise<{
+    totalByLogistics({ startDate, endDate, }: {
+        startDate: Date;
+        endDate: Date;
+    }): Promise<any[][]>;
+    rutasByLogistics({ startDate, endDate, }: {
+        startDate: Date;
+        endDate: Date;
+    }): Promise<{
         name: string;
         y: any;
     }[]>;
@@ -22,11 +28,17 @@ export declare class DashboardService {
         categories: any;
         series: any[];
     }>;
-    rutasByDrivers(): Promise<{
+    rutasByDrivers({ startDate, endDate, }: {
+        startDate: Date;
+        endDate: Date;
+    }): Promise<{
         categories: unknown[];
         data: any[];
     }>;
-    stateCountDashboard(): Promise<{
+    stateCountDashboard({ startDate, endDate, }: {
+        startDate: Date;
+        endDate: Date;
+    }): Promise<{
         totales: {
             title: string;
             total: string;

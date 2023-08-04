@@ -15,11 +15,7 @@ async function bootstrap() {
         },
     }));
     app.enableCors({
-        origin: [
-            'http://localhost:3000',
-            'https://transportesferreira.com',
-            'https://ferreira-ui.vercel.app',
-        ],
+        origin: ['http://localhost:3000', 'https://transportesferreira.com'],
     });
     await app.listen(process.env.PORT);
     console.log(`[APP-SERVICE] Running on port: [${process.env.PORT}], environment: [${process.env.NODE_ENV}], file-env: .env.${process.env.NODE_ENV}`);

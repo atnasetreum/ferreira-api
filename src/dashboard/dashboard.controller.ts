@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { DashboardService } from './dashboard.service';
 
 @Controller('dashboard')
@@ -11,13 +11,25 @@ export class DashboardController {
   }
 
   @Get('/totalByLogistics')
-  totalByLogistics() {
-    return this.dashboardService.totalByLogistics();
+  totalByLogistics(
+    @Query('startDate') startDate: Date,
+    @Query('endDate') endDate: Date,
+  ) {
+    return this.dashboardService.totalByLogistics({
+      startDate,
+      endDate,
+    });
   }
 
   @Get('/rutasByLogistics')
-  rutasByLogistics() {
-    return this.dashboardService.rutasByLogistics();
+  rutasByLogistics(
+    @Query('startDate') startDate: Date,
+    @Query('endDate') endDate: Date,
+  ) {
+    return this.dashboardService.rutasByLogistics({
+      startDate,
+      endDate,
+    });
   }
 
   @Get('/rutasByLogisticsTimeLine')
@@ -26,12 +38,24 @@ export class DashboardController {
   }
 
   @Get('/rutasByDrivers')
-  rutasByDrivers() {
-    return this.dashboardService.rutasByDrivers();
+  rutasByDrivers(
+    @Query('startDate') startDate: Date,
+    @Query('endDate') endDate: Date,
+  ) {
+    return this.dashboardService.rutasByDrivers({
+      startDate,
+      endDate,
+    });
   }
 
   @Get('/stateCountDashboard')
-  stateCountDashboard() {
-    return this.dashboardService.stateCountDashboard();
+  stateCountDashboard(
+    @Query('startDate') startDate: Date,
+    @Query('endDate') endDate: Date,
+  ) {
+    return this.dashboardService.stateCountDashboard({
+      startDate,
+      endDate,
+    });
   }
 }

@@ -115,7 +115,7 @@ export class CommonService {
   }
 
   createJwt(payload) {
-    return jwt.sign(payload, this.secretKey, { expiresIn: '1d' });
+    return jwt.sign(payload, this.secretKey, { expiresIn: '3d' });
   }
 
   decodedJwt(token: string) {

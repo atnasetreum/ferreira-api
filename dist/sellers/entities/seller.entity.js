@@ -75,11 +75,11 @@ __decorate([
 ], Seller.prototype, "isActive", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
-    __metadata("design:type", String)
+    __metadata("design:type", Date)
 ], Seller.prototype, "createdAt", void 0);
 __decorate([
     (0, typeorm_1.UpdateDateColumn)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", Date)
 ], Seller.prototype, "updatedAt", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => reference_phone_entity_1.ReferencePhone, (referencePhones) => referencePhones.seller, { nullable: true }),

@@ -16,8 +16,8 @@ export declare class Seller {
     image: string;
     personaQueAtiende?: string;
     isActive: boolean;
-    createdAt: string;
-    updatedAt: number;
+    createdAt: Date;
+    updatedAt: Date;
     referencePhones: ReferencePhone[];
     references: Reference[];
     parent: Seller;

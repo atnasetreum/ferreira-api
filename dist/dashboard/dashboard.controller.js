@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DashboardController = void 0;
 const common_1 = require("@nestjs/common");
@@ -19,20 +22,32 @@ let DashboardController = class DashboardController {
     carsByLogistics() {
         return this.dashboardService.carsByLogistics();
     }
-    totalByLogistics() {
-        return this.dashboardService.totalByLogistics();
+    totalByLogistics(startDate, endDate) {
+        return this.dashboardService.totalByLogistics({
+            startDate,
+            endDate,
+        });
     }
-    rutasByLogistics() {
-        return this.dashboardService.rutasByLogistics();
+    rutasByLogistics(startDate, endDate) {
+        return this.dashboardService.rutasByLogistics({
+            startDate,
+            endDate,
+        });
     }
     rutasByLogisticsTimeLine() {
         return this.dashboardService.rutasByLogisticsTimeLine();
     }
-    rutasByDrivers() {
-        return this.dashboardService.rutasByDrivers();
+    rutasByDrivers(startDate, endDate) {
+        return this.dashboardService.rutasByDrivers({
+            startDate,
+            endDate,
+        });
     }
-    stateCountDashboard() {
-        return this.dashboardService.stateCountDashboard();
+    stateCountDashboard(startDate, endDate) {
+        return this.dashboardService.stateCountDashboard({
+            startDate,
+            endDate,
+        });
     }
 };
 __decorate([
@@ -43,14 +58,20 @@ __decorate([
 ], DashboardController.prototype, "carsByLogistics", null);
 __decorate([
     (0, common_1.Get)('/totalByLogistics'),
+    __param(0, (0, common_1.Query)('startDate')),
+    __param(1, (0, common_1.Query)('endDate')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Date,
+        Date]),
     __metadata("design:returntype", void 0)
 ], DashboardController.prototype, "totalByLogistics", null);
 __decorate([
     (0, common_1.Get)('/rutasByLogistics'),
+    __param(0, (0, common_1.Query)('startDate')),
+    __param(1, (0, common_1.Query)('endDate')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Date,
+        Date]),
     __metadata("design:returntype", void 0)
 ], DashboardController.prototype, "rutasByLogistics", null);
 __decorate([
@@ -61,14 +82,20 @@ __decorate([
 ], DashboardController.prototype, "rutasByLogisticsTimeLine", null);
 __decorate([
     (0, common_1.Get)('/rutasByDrivers'),
+    __param(0, (0, common_1.Query)('startDate')),
+    __param(1, (0, common_1.Query)('endDate')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Date,
+        Date]),
     __metadata("design:returntype", void 0)
 ], DashboardController.prototype, "rutasByDrivers", null);
 __decorate([
     (0, common_1.Get)('/stateCountDashboard'),
+    __param(0, (0, common_1.Query)('startDate')),
+    __param(1, (0, common_1.Query)('endDate')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Date,
+        Date]),
     __metadata("design:returntype", void 0)
 ], DashboardController.prototype, "stateCountDashboard", null);
 DashboardController = __decorate([

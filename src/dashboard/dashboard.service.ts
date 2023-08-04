@@ -6,7 +6,7 @@ import { Route } from 'src/routes/entities';
 import { Seller } from 'src/sellers/entities';
 import { EUserType } from 'src/user-types/entities/user-type.entity';
 import { User } from 'src/users/entities/user.entity';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 
 @Injectable()
 export class DashboardService {
@@ -40,7 +40,13 @@ export class DashboardService {
     return array;
   }
 
-  async totalByLogistics() {
+  async totalByLogistics({
+    startDate,
+    endDate,
+  }: {
+    startDate: Date;
+    endDate: Date;
+  }) {
     const logistics = await this.logisticsService.findAll();
 
     const rows = await this.routeRepository
@@ -49,6 +55,10 @@ export class DashboardService {
       .innerJoinAndSelect('routes.car', 'car')
       .innerJoinAndSelect('car.logistica', 'logistics')
       .where('routes.pago > 0')
+      .andWhere('routes.date BETWEEN :startDate AND :endDate', {
+        startDate,
+        endDate,
+      })
       .execute();
 
     const getTotal = (name) => {
@@ -65,7 +75,13 @@ export class DashboardService {
     return logisticas;
   }
 
-  async rutasByLogistics() {
+  async rutasByLogistics({
+    startDate,
+    endDate,
+  }: {
+    startDate: Date;
+    endDate: Date;
+  }) {
     const logistics = await this.logisticsService.findAll();
 
     const rows = await this.routeRepository
@@ -74,6 +90,10 @@ export class DashboardService {
       .innerJoinAndSelect('routes.car', 'car')
       .innerJoinAndSelect('car.logistica', 'logistics')
       .where('routes.pago > 0')
+      .andWhere('routes.date BETWEEN :startDate AND :endDate', {
+        startDate,
+        endDate,
+      })
       .execute();
 
     const getTotal = (name) => {
@@ -153,11 +173,21 @@ export class DashboardService {
     };
   }
 
-  async rutasByDrivers() {
+  async rutasByDrivers({
+    startDate,
+    endDate,
+  }: {
+    startDate: Date;
+    endDate: Date;
+  }) {
     const rows = await this.routeRepository
       .createQueryBuilder('routes')
       .select(['users.name'])
       .innerJoinAndSelect('routes.user', 'users')
+      .where('routes.date BETWEEN :startDate AND :endDate', {
+        startDate,
+        endDate,
+      })
       .execute();
 
     const getTotal = (name) => {
@@ -176,9 +206,24 @@ export class DashboardService {
     };
   }
 
-  async stateCountDashboard() {
-    const routes = await this.routeRepository.find({ relations: ['sellers'] });
-    const sellers = await this.sellerRepository.find({});
+  async stateCountDashboard({
+    startDate,
+    endDate,
+  }: {
+    startDate: Date;
+    endDate: Date;
+  }) {
+    const routes = await this.routeRepository.find({
+      where: {
+        date: Between(startDate, endDate),
+      },
+      relations: ['sellers'],
+    });
+    const sellers = await this.sellerRepository.find({
+      where: {
+        createdAt: Between(startDate, endDate),
+      },
+    });
 
     const numbers = routes.map((route) => route.sellers.length);
 

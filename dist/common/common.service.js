@@ -82,7 +82,7 @@ let CommonService = class CommonService {
         throw new common_1.InternalServerErrorException('Unexpected error, Please check server logs');
     }
     createJwt(payload) {
-        return jwt.sign(payload, this.secretKey, { expiresIn: '1d' });
+        return jwt.sign(payload, this.secretKey, { expiresIn: '3d' });
     }
     decodedJwt(token) {
         try {

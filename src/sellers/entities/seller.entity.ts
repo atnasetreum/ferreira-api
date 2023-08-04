@@ -56,10 +56,10 @@ export class Seller {
   isActive: boolean;
 
   @CreateDateColumn()
-  createdAt: string;
+  createdAt: Date;
 
   @UpdateDateColumn()
-  updatedAt: number;
+  updatedAt: Date;
 
   @OneToMany(
     () => ReferencePhone,
