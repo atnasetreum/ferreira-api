@@ -23,8 +23,8 @@ export class DashboardController {
 
   @Get('/rutasByLogistics')
   rutasByLogistics(
-    @Query('startDate') startDate: Date,
-    @Query('endDate') endDate: Date,
+    @Query('startDate') startDate: string,
+    @Query('endDate') endDate: string,
   ) {
     return this.dashboardService.rutasByLogistics({
       startDate,
@@ -39,8 +39,8 @@ export class DashboardController {
 
   @Get('/rutasByDrivers')
   rutasByDrivers(
-    @Query('startDate') startDate: Date,
-    @Query('endDate') endDate: Date,
+    @Query('startDate') startDate: string,
+    @Query('endDate') endDate: string,
   ) {
     return this.dashboardService.rutasByDrivers({
       startDate,
@@ -50,8 +50,8 @@ export class DashboardController {
 
   @Get('/stateCountDashboard')
   stateCountDashboard(
-    @Query('startDate') startDate: Date,
-    @Query('endDate') endDate: Date,
+    @Query('startDate') startDate: string,
+    @Query('endDate') endDate: string,
   ) {
     return this.dashboardService.stateCountDashboard({
       startDate,

@@ -79,8 +79,8 @@ export class DashboardService {
     startDate,
     endDate,
   }: {
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
   }) {
     const logistics = await this.logisticsService.findAll();
 
@@ -177,8 +177,8 @@ export class DashboardService {
     startDate,
     endDate,
   }: {
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
   }) {
     const rows = await this.routeRepository
       .createQueryBuilder('routes')
@@ -210,18 +210,18 @@ export class DashboardService {
     startDate,
     endDate,
   }: {
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
   }) {
     const routes = await this.routeRepository.find({
       where: {
-        date: Between(startDate, endDate),
+        date: Between(new Date(startDate), new Date(endDate)),
       },
       relations: ['sellers'],
     });
     const sellers = await this.sellerRepository.find({
       where: {
-        createdAt: Between(startDate, endDate),
+        createdAt: Between(new Date(startDate), new Date(endDate)),
       },
     });
 

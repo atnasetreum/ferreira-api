@@ -18,8 +18,8 @@ export declare class DashboardService {
         endDate: string;
     }): Promise<any[][]>;
     rutasByLogistics({ startDate, endDate, }: {
-        startDate: Date;
-        endDate: Date;
+        startDate: string;
+        endDate: string;
     }): Promise<{
         name: string;
         y: any;
@@ -29,15 +29,15 @@ export declare class DashboardService {
         series: any[];
     }>;
     rutasByDrivers({ startDate, endDate, }: {
-        startDate: Date;
-        endDate: Date;
+        startDate: string;
+        endDate: string;
     }): Promise<{
         categories: unknown[];
         data: any[];
     }>;
     stateCountDashboard({ startDate, endDate, }: {
-        startDate: Date;
-        endDate: Date;
+        startDate: string;
+        endDate: string;
     }): Promise<{
         totales: {
             title: string;

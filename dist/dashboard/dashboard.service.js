@@ -165,13 +165,13 @@ let DashboardService = DashboardService_1 = class DashboardService {
     async stateCountDashboard({ startDate, endDate, }) {
         const routes = await this.routeRepository.find({
             where: {
-                date: (0, typeorm_2.Between)(startDate, endDate),
+                date: (0, typeorm_2.Between)(new Date(startDate), new Date(endDate)),
             },
             relations: ['sellers'],
         });
         const sellers = await this.sellerRepository.find({
             where: {
-                createdAt: (0, typeorm_2.Between)(startDate, endDate),
+                createdAt: (0, typeorm_2.Between)(new Date(startDate), new Date(endDate)),
             },
         });
         const numbers = routes.map((route) => route.sellers.length);

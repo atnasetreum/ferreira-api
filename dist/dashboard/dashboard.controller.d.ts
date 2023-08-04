@@ -4,7 +4,7 @@ export declare class DashboardController {
     constructor(dashboardService: DashboardService);
     carsByLogistics(): Promise<any[]>;
     totalByLogistics(startDate: string, endDate: string): Promise<any[][]>;
-    rutasByLogistics(startDate: Date, endDate: Date): Promise<{
+    rutasByLogistics(startDate: string, endDate: string): Promise<{
         name: string;
         y: any;
     }[]>;
@@ -12,11 +12,11 @@ export declare class DashboardController {
         categories: any;
         series: any[];
     }>;
-    rutasByDrivers(startDate: Date, endDate: Date): Promise<{
+    rutasByDrivers(startDate: string, endDate: string): Promise<{
         categories: unknown[];
         data: any[];
     }>;
-    stateCountDashboard(startDate: Date, endDate: Date): Promise<{
+    stateCountDashboard(startDate: string, endDate: string): Promise<{
         totales: {
             title: string;
             total: string;

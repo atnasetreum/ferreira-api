@@ -69,8 +69,7 @@ __decorate([
     __param(0, (0, common_1.Query)('startDate')),
     __param(1, (0, common_1.Query)('endDate')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Date,
-        Date]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", void 0)
 ], DashboardController.prototype, "rutasByLogistics", null);
 __decorate([
@@ -84,8 +83,7 @@ __decorate([
     __param(0, (0, common_1.Query)('startDate')),
     __param(1, (0, common_1.Query)('endDate')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Date,
-        Date]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", void 0)
 ], DashboardController.prototype, "rutasByDrivers", null);
 __decorate([
@@ -93,8 +91,7 @@ __decorate([
     __param(0, (0, common_1.Query)('startDate')),
     __param(1, (0, common_1.Query)('endDate')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Date,
-        Date]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", void 0)
 ], DashboardController.prototype, "stateCountDashboard", null);
 DashboardController = __decorate([
