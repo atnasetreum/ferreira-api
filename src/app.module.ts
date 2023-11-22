@@ -46,7 +46,5 @@ import { DashboardModule } from './dashboard/dashboard.module';
     CarsModule,
     DashboardModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}
